@@ -26,28 +26,43 @@ void CanvasWidget::paintEvent(QPaintEvent *event) {
 void CanvasWidget::mousePressEvent(QMouseEvent *event) {
     // 鼠标按压
     isMousePressing = true;
-    // 采集曲线起点
+    // 采集点
     auto p = event->position().toPoint();
+    // 鼠标活动范围
+    if (p.x() < 0 || p.y() < 0 || p.x() > test_pic.width() || p.y() > test_pic.height()) return;
+    // 加入至管理容器
     container.addStartEndPoint(p, curve_insert_cursor);
+    container.addControlPoint(p, curve_insert_cursor, test_pic.width(), test_pic.height());
+    // 重画
     update();
+    // 其余工作
     QWidget::mousePressEvent(event);
 }
 
 void CanvasWidget::mouseMoveEvent(QMouseEvent *event) {
-    // 采集控制点
+    // 采集点
+    auto p = event->position().toPoint();
+    // 鼠标活动范围
+    if (p.x() < 0 || p.y() < 0 || p.x() > test_pic.width() || p.y() > test_pic.height()) return;
+    // 仅按压时加入容器
     if (isMousePressing) {
-        auto p = event->position().toPoint();
         container.addControlPoint(p, curve_insert_cursor, test_pic.width(), test_pic.height());
     }
+    // 重画
     update();
+    // 其余工作
     QWidget::mouseMoveEvent(event);
 }
 
 void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
     // 鼠标释放
     isMousePressing = false;
+    // 曲线指示游标后移
     curve_insert_cursor++;
-    //container.printAll();
+    // 测试
+    container.printAll();
+    // 重画
     update();
+    // 其余工作
     QWidget::mouseReleaseEvent(event);
 }

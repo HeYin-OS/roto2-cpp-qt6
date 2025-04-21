@@ -40,11 +40,11 @@ void BezierCurveContainer::drawBezierCurve(QPainter &painter) {
     painter.setPen(QPen(QColor(255, 255, 0), 4)); // yellow
     // the number of curves
     for (int i = 0; i < points.size(); i += 4) {
-        if (i + 4 == points.size()) return;
         auto [x0, y0] = points[i];
         auto [x1, y1] = points[i + 1];
         auto [x2, y2] = points[i + 2];
         auto [x3, y3] = points[i + 3];
+        if (x2 == 0.f && y2 == 0.f) break;
         // draw bezier curve
         QPainterPath path;
         path.moveTo(QPointF(x0, y0));
@@ -62,7 +62,7 @@ void BezierCurveContainer::drawReferLine(QPainter &painter) {
     for (int i = 0; i < points.size(); i += 2) {
         auto [x0, y0] = points[i];
         auto [x1, y1] = points[i + 1];
-        // incomplete points due to pen tool
+        // skip empty lines
         if (x0 == 0.f && y0 == 0.f) break;
         painter.drawLine(x0, y0, x1, y1);
     }
@@ -83,7 +83,7 @@ void BezierCurveContainer::drawReferLine(QPainter &painter) {
         auto [x0, y0] = points[i + 1];
         auto [x1, y1] = points[i + 2];
         painter.drawPoint(x0, y0);
-        // incomplete points due to pen tool
+        // skip empty points
         if (x1 == 0.f && y1 == 0.f) break;
         painter.drawPoint(x1, y1);
     }
@@ -95,8 +95,10 @@ pair<float, float> BezierCurveContainer::getPoint(int curve_index, int point_ind
 }
 
 void BezierCurveContainer::printAll() const {
+    int i = 0;
     for (auto &p: points) {
-        qDebug() << p.first << " " << p.second;
+        qDebug() << "[" << i << "]:" << p.first << " " << p.second;
+        ++i;
     }
     qDebug() << "------------------------";
 }

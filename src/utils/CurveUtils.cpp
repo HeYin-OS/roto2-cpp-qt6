@@ -3,7 +3,7 @@
 //
 #include "CurveUtils.h"
 
-void BezierCurveContainer::addStartEndPoint(QPoint point, int index) {
+void BezierCurveContainer::addStartEndPoint(QPoint& point, int index) {
     // allocate room for 4 points
     for (int i = 0; i < 4; ++i) points.push_back({0, 0});
     // the start point of the current curve
@@ -15,7 +15,7 @@ void BezierCurveContainer::addStartEndPoint(QPoint point, int index) {
     return;
 }
 
-void BezierCurveContainer::addControlPoint(QPoint point, int index, int x_max, int y_max) {
+void BezierCurveContainer::addControlPoint(QPoint& point, int index, int x_max, int y_max) {
     // first control point of the current curve
     auto x = point.x();
     auto y = point.y();
@@ -101,4 +101,16 @@ void BezierCurveContainer::printAll() const {
         ++i;
     }
     qDebug() << "------------------------";
+}
+
+void BezierCurveContainer::moveAnchorPoint(QPoint &point) {
+
+}
+
+void BezierCurveContainer::moveControlPoint(QPoint &point) {
+
+}
+
+void BezierCurveContainer::deleteByAnchorPoint(int index) {
+
 }

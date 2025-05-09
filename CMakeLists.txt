@@ -10,8 +10,10 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(WINDEPLOYQT_EXECUTABLE "E:/Qt/6.7.3/msvc2022_64/bin/windeployqt.exe")
+set(OpenCV_ROOT "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv")
 
 find_package(Qt6 COMPONENTS Core Widgets Gui REQUIRED)
+find_package(OpenCV REQUIRED)
 
 add_executable(roto_2_cpp
         src/main.cpp
@@ -21,13 +23,18 @@ add_executable(roto_2_cpp
         src/window/CanvasWidget.h
         src/utils/CurveUtils.cpp
         src/utils/CurveUtils.h
+        src/utils/VideoHandler.cpp
+        src/utils/VideoHandler.h
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt6::Core
         Qt6::Widgets
         Qt6::Gui
+        ${OpenCV_LIBS}
 )
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
 
 # 添加自定义命令，在构建完成后自动运行 windeployqt
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

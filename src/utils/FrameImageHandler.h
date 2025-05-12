@@ -4,13 +4,6 @@
 
 #ifndef ROTO_2_CPP_FRAMEIMAGEHANDLER_H
 #define ROTO_2_CPP_FRAMEIMAGEHANDLER_H
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <QPixmap>
-#include <QDebug>
 #include "../macros.h"
 
 using namespace std;

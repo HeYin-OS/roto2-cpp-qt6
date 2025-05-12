@@ -1,13 +1,7 @@
 //
 // Created by 12544 on 25-4-14.
 //
-#include <vector>
-#include <algorithm>
-#include <QPoint>
-#include <QPainter>
-#include <QPainterPath>
-#include <QDebug>
-#include <QThread>
+#include "../macros.h"
 
 #ifndef ROTO_2_CPP_CURVECONTAINER_H
 #define ROTO_2_CPP_CURVECONTAINER_H

@@ -5,7 +5,7 @@
 #ifndef ROTO_2_CPP_VIDEOHANDLER_H
 #define ROTO_2_CPP_VIDEOHANDLER_H
 
-#include <opencv2/opencv.hpp>
+#include "../macros.h"
 
 using namespace cv;
 using namespace std;

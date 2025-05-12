@@ -1,17 +1,10 @@
 //
 // Created by 12544 on 25-4-14.
 //
-#include <QWidget>
-#include <QPixmap>
-#include <QPainter>
-#include <QPen>
-#include <QColor>
-#include <QMouseEvent>
-#include <QPoint>
-#include <QDebug>
 
 #include "../utils/CurveUtils.h"
 #include "../utils/FrameImageHandler.h"
+#include "../macros.h"
 
 #ifndef ROTO_2_CPP_CANVASWIDGET_H
 #define ROTO_2_CPP_CANVASWIDGET_H

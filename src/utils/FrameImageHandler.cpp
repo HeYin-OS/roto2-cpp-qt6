@@ -17,7 +17,6 @@ string FrameImgHandler::getFrameUrl(int idx) {
     oss << setw(5) << setfill('0') << idx;
     auto str = oss.str();
     auto full_url = frame_url_head + str + ".jpg";
-    qDebug() << full_url;
     return full_url;
 }
 

@@ -1,17 +1,6 @@
 //
 // Created by 12544 on 25-4-13.
 //
-#include <QMainWindow>
-#include <QWidget>
-#include <QPixmap>
-#include <QDir>
-#include <QDebug>
-#include <QScreen>
-#include <QPainter>
-#include <QHBoxLayout>
-#include <QPushButton>
-#include <QLabel>
-#include <QSlider>
 
 #include "../macros.h"
 #include "CanvasWidget.h"

@@ -25,6 +25,9 @@ add_executable(roto_2_cpp
         src/utils/CurveUtils.h
         src/utils/VideoHandler.cpp
         src/utils/VideoHandler.h
+        src/utils/FrameImageHandler.cpp
+        src/utils/FrameImageHandler.h
+        src/macros.h
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

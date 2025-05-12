@@ -4,7 +4,7 @@
 
 #include "VideoHandler.h"
 
-VideoHandler::VideoHandler(String fileUrl) {
+VideoHandler::VideoHandler(string fileUrl) {
     VideoCapture cap(fileUrl);
     if (!cap.isOpened()) {
         cerr << "Cannot Open Target Video File(s)." << endl;

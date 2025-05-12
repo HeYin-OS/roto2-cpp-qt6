@@ -11,13 +11,22 @@
 #include <QDebug>
 
 #include "../utils/CurveUtils.h"
+#include "../utils/FrameImageHandler.h"
 
 #ifndef ROTO_2_CPP_CANVASWIDGET_H
 #define ROTO_2_CPP_CANVASWIDGET_H
 
 class CanvasWidget : public QWidget {
 public:
-    CanvasWidget(QWidget *parent = nullptr, string url = "../test/cat.jpg");
+    CanvasWidget(QWidget *parent = nullptr);
+
+    int getFrameCursor() const;
+
+    void frameCursorAutoIncrease();
+
+    void frameCursorAutoDecrease();
+
+    void replaceFrame();
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -30,10 +39,11 @@ protected:
 
 private:
     bool isMousePressing = false;
-    int curve_insert_cursor = 0;
+    int curve_insert_cursor;
+    int frame_cursor;
 
-    QPixmap test_pic;
     BezierCurveContainer container;
+    FrameImgHandler frameHandler;
 
 };
 

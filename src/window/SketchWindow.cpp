@@ -1,17 +1,13 @@
 //
 // Created by 12544 on 25-4-13.
 //
-#define TEST_VIDEO_FIRST_FRAME_URL "../test/tennis/00000.jpg"
-
-#include <QPushButton>
-#include <QLabel>
-#include <QSlider>
 #include "SketchWindow.h"
 
 SketchWindow::SketchWindow(QWidget *parent) :
         QMainWindow(parent),
-        canvas(this, TEST_VIDEO_FIRST_FRAME_URL) {
+        canvas(this) {
     this->initComponentsAndLayout();
+    this->initSignalAndSlots();
     setMouseTracking(true);
 }
 
@@ -22,7 +18,7 @@ void SketchWindow::initComponentsAndLayout() {
     this->setWindowTitle("Sketching Board");
     // 由于工具栏扩展窗体尺寸
     int tool_expansion_space = 240;
-    QPixmap test_image(TEST_VIDEO_FIRST_FRAME_URL);
+    QPixmap test_image((string(TEST_VIDEO_FIRST_FRAME_URL) + "00000.jpg").c_str());
     this->setFixedSize(test_image.width() + tool_expansion_space, test_image.height());
     // 窗体移动至屏幕中央
     this->moveToCenter();
@@ -34,17 +30,29 @@ void SketchWindow::initComponentsAndLayout() {
     canvas.setGeometry(0, 0, test_image.width(), test_image.height());
     // 帧控制相关
     // 加入标签显示当前帧的序号
-    QLabel *frame_label = new QLabel("1234", this);
-    frame_label->setGeometry(test_image.width() + 10, 10, 30, 30);
+    frame_label.setParent(this);
+    frame_label.setText(QString::number(1));
+    frame_label.setGeometry(test_image.width() + 10, 10, 30, 30);
     // 加入左移按钮
-    QPushButton *left_button = new QPushButton("◀", this);
-    left_button->setGeometry(test_image.width() + 50, 10, 30, 30);
+    left_button.setParent(this);
+    left_button.setText("◀");
+    left_button.setGeometry(test_image.width() + 50, 10, 30, 30);
     // 加入滚动条
-    QSlider *slider = new QSlider(Qt::Horizontal, this);
-    slider->setGeometry(test_image.width() + 90, 10, 100, 30);
+    slider.setParent(this);
+    slider.setOrientation(Qt::Horizontal);
+    slider.setGeometry(test_image.width() + 90, 10, 100, 30);
     // 加入右移按钮
-    QPushButton *right_button = new QPushButton("▶", this);
-    right_button->setGeometry(test_image.width() + 200, 10, 30, 30);
+    right_button.setParent(this);
+    right_button.setText("▶");
+    right_button.setGeometry(test_image.width() + 200, 10, 30, 30);
+
+}
+
+void SketchWindow::initSignalAndSlots() {
+    // 帧前进键的点击事件
+    connect(&left_button, &QPushButton::clicked, this, &SketchWindow::onFrameLeftButtonClicked);
+    // 帧后退键的点击事件
+    connect(&right_button, &QPushButton::clicked, this, &SketchWindow::onFrameRightButtonClicked);
 
 }
 
@@ -53,4 +61,16 @@ void SketchWindow::moveToCenter() {
     auto cp = this->screen()->availableGeometry().center();
     qr.moveCenter(cp);
     move(qr.topLeft());
+}
+
+void SketchWindow::onFrameLeftButtonClicked() {
+    canvas.frameCursorAutoDecrease();
+    canvas.replaceFrame();
+    this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
+}
+
+void SketchWindow::onFrameRightButtonClicked() {
+    canvas.frameCursorAutoIncrease();
+    canvas.replaceFrame();
+    this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
 }

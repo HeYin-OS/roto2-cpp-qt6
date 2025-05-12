@@ -4,10 +4,13 @@
 
 #include "CanvasWidget.h"
 
-CanvasWidget::CanvasWidget(QWidget *parent, string url) :
+CanvasWidget::CanvasWidget(QWidget *parent) :
         QWidget(parent),
-        test_pic(url.c_str()) {
-    setMinimumSize(test_pic.size());
+        curve_insert_cursor(0),
+        isMousePressing(false),
+        frame_cursor(0),
+        frameHandler(TEST_VIDEO_FIRST_FRAME_URL) {
+    setMinimumSize(frameHandler.getFrame(0).size());
     setMouseTracking(true);
 }
 
@@ -16,7 +19,7 @@ void CanvasWidget::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::RenderHint::Antialiasing);
     // 画布
-    painter.drawPixmap(0, 0, test_pic);
+    painter.drawPixmap(0, 0, frameHandler.getFrame(frame_cursor));
     // 贝塞尔曲线和手柄描绘
     container.drawBezierCurve(painter);
     container.drawReferLine(painter);
@@ -29,10 +32,12 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
     // 采集点
     auto p = event->position().toPoint();
     // 鼠标活动范围
-    if (p.x() < 0 || p.y() < 0 || p.x() > test_pic.width() || p.y() > test_pic.height()) return;
+    auto max_width = frameHandler.getMaxWidth();
+    auto max_height = frameHandler.getMaxHeight();
+    if (p.x() < 0 || p.y() < 0 || p.x() > max_width || p.y() > max_height) return;
     // 加入至管理容器
     container.addStartEndPoint(p, curve_insert_cursor);
-    container.addControlPoint(p, curve_insert_cursor, test_pic.width(), test_pic.height());
+    container.addControlPoint(p, curve_insert_cursor, max_width, max_height);
     // 重画
     update();
     // 其余工作
@@ -43,10 +48,12 @@ void CanvasWidget::mouseMoveEvent(QMouseEvent *event) {
     // 采集点
     auto p = event->position().toPoint();
     // 鼠标活动范围
-    if (p.x() < 0 || p.y() < 0 || p.x() > test_pic.width() || p.y() > test_pic.height()) return;
+    auto max_width = frameHandler.getMaxWidth();
+    auto max_height = frameHandler.getMaxHeight();
+    if (p.x() < 0 || p.y() < 0 || p.x() > max_width || p.y() > max_height) return;
     // 仅按压时加入容器
     if (isMousePressing) {
-        container.addControlPoint(p, curve_insert_cursor, test_pic.width(), test_pic.height());
+        container.addControlPoint(p, curve_insert_cursor, max_width, max_height);
     }
     // 重画
     update();
@@ -65,4 +72,27 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
     update();
     // 其余工作
     QWidget::mouseReleaseEvent(event);
+}
+
+int CanvasWidget::getFrameCursor() const {
+    return this->frame_cursor;
+}
+
+void CanvasWidget::frameCursorAutoIncrease() {
+    this->frame_cursor++;
+    if (this->frame_cursor >= frameHandler.getFrameNum()) {
+        this->frame_cursor = frameHandler.getFrameNum() - 1;
+    }
+}
+
+void CanvasWidget::frameCursorAutoDecrease() {
+    this->frame_cursor--;
+    if (this->frame_cursor < 0) {
+        this->frame_cursor = 0;
+    }
+}
+
+void CanvasWidget::replaceFrame() {
+    std::cout << this->frame_cursor << std::endl;
+    update();
 }

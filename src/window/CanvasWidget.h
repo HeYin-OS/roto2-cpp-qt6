@@ -32,12 +32,11 @@ protected:
 
 private:
     bool isMousePressing = false;
-    int curve_insert_cursor;
+    array<int, FRAME_NUM> curve_insert_cursor{};
     int frame_cursor;
 
-    BezierCurveContainer container;
+    array<BezierCurveContainer, FRAME_NUM> bezier_container;
     FrameImgHandler frameHandler;
-
 };
 
 #endif //ROTO_2_CPP_CANVASWIDGET_H

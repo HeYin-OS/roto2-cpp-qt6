@@ -6,7 +6,6 @@
 
 CanvasWidget::CanvasWidget(QWidget *parent) :
         QWidget(parent),
-        curve_insert_cursor(0),
         isMousePressing(false),
         frame_cursor(0),
         frameHandler(TEST_VIDEO_FIRST_FRAME_URL) {
@@ -21,8 +20,8 @@ void CanvasWidget::paintEvent(QPaintEvent *event) {
     // 画布
     painter.drawPixmap(0, 0, frameHandler.getFrame(frame_cursor));
     // 贝塞尔曲线和手柄描绘
-    container.drawBezierCurve(painter);
-    container.drawReferLine(painter);
+    bezier_container[frame_cursor].drawBezierCurve(painter);
+    bezier_container[frame_cursor].drawReferLine(painter);
     QWidget::paintEvent(event);
 }
 
@@ -36,8 +35,8 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
     auto max_height = frameHandler.getMaxHeight();
     if (p.x() < 0 || p.y() < 0 || p.x() > max_width || p.y() > max_height) return;
     // 加入至管理容器
-    container.addStartEndPoint(p, curve_insert_cursor);
-    container.addControlPoint(p, curve_insert_cursor, max_width, max_height);
+    bezier_container[frame_cursor].addStartEndPoint(p, curve_insert_cursor[frame_cursor]);;
+    bezier_container[frame_cursor].addControlPoint(p, curve_insert_cursor[frame_cursor], max_width, max_height);
     // 重画
     update();
     // 其余工作
@@ -53,7 +52,7 @@ void CanvasWidget::mouseMoveEvent(QMouseEvent *event) {
     if (p.x() < 0 || p.y() < 0 || p.x() > max_width || p.y() > max_height) return;
     // 仅按压时加入容器
     if (isMousePressing) {
-        container.addControlPoint(p, curve_insert_cursor, max_width, max_height);
+        bezier_container[frame_cursor].addControlPoint(p, curve_insert_cursor[frame_cursor], max_width, max_height);
     }
     // 重画
     update();
@@ -65,9 +64,9 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
     // 鼠标释放
     isMousePressing = false;
     // 曲线指示游标后移
-    curve_insert_cursor++;
+    curve_insert_cursor[frame_cursor]++;
     // 测试
-    container.printAll();
+//    bezier_container[frame_cursor].printAll();
     // 重画
     update();
     // 其余工作
@@ -93,6 +92,5 @@ void CanvasWidget::frameCursorAutoDecrease() {
 }
 
 void CanvasWidget::replaceFrame() {
-    std::cout << this->frame_cursor << std::endl;
     update();
 }

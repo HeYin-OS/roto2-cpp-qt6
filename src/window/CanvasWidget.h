@@ -17,7 +17,7 @@
 
 class CanvasWidget : public QWidget {
 public:
-    CanvasWidget(QWidget *parent = nullptr);
+    CanvasWidget(QWidget *parent = nullptr, string url = "../test/cat.jpg");
 
 protected:
     void paintEvent(QPaintEvent *event) override;

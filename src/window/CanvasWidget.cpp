@@ -4,9 +4,9 @@
 
 #include "CanvasWidget.h"
 
-CanvasWidget::CanvasWidget(QWidget *parent) :
+CanvasWidget::CanvasWidget(QWidget *parent, string url) :
         QWidget(parent),
-        test_pic("../test/cat.jpg") {
+        test_pic(url.c_str()) {
     setMinimumSize(test_pic.size());
     setMouseTracking(true);
 }

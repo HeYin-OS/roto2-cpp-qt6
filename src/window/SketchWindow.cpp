@@ -1,6 +1,7 @@
 //
 // Created by 12544 on 25-4-13.
 //
+#define TEST_VIDEO_FIRST_FRAME_URL "../test/tennis/00000.jpg"
 
 #include <QPushButton>
 #include <QLabel>
@@ -9,7 +10,7 @@
 
 SketchWindow::SketchWindow(QWidget *parent) :
         QMainWindow(parent),
-        canvas(this) {
+        canvas(this, TEST_VIDEO_FIRST_FRAME_URL) {
     this->initComponentsAndLayout();
     setMouseTracking(true);
 }
@@ -21,7 +22,7 @@ void SketchWindow::initComponentsAndLayout() {
     this->setWindowTitle("Sketching Board");
     // 由于工具栏扩展窗体尺寸
     int tool_expansion_space = 240;
-    QPixmap test_image("../test/cat.jpg");
+    QPixmap test_image(TEST_VIDEO_FIRST_FRAME_URL);
     this->setFixedSize(test_image.width() + tool_expansion_space, test_image.height());
     // 窗体移动至屏幕中央
     this->moveToCenter();

@@ -12,7 +12,7 @@ using namespace std;
 
 class VideoHandler {
 public:
-    VideoHandler::VideoHandler(String fileUrl);
+    VideoHandler(String fileUrl);
 
     Mat getFrame(int idx) const;
 

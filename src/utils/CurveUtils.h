@@ -26,7 +26,7 @@ public:
     void moveControlPoint(QPoint& point);
 
     // delete function
-    void deleteByAnchorPoint(int index);
+    void deleteFromLast();
 
     // point access
     pair<float, float> getPoint(int curve_index, int point_index) const;

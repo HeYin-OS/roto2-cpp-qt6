@@ -32,29 +32,38 @@ void SketchWindow::initComponentsAndLayout() {
     // 加入绘画控件
     canvas.setGeometry(0, 0, test_image.width(), test_image.height());
     // 帧控制相关
-    // 加入控件盒
+    // 加入帧功能区控件盒
     frame_box.setParent(this);
     frame_box.setTitle("Frame Control");
     frame_box.setGeometry(test_image.width() + 10, 0, 230, 60);
     // 加入标签显示当前帧的序号
     frame_label.setParent(this);
     frame_label.setText(QString::number(1));
-    frame_label.setGeometry(test_image.width() + 20, 20, 20, 30);
+    frame_label.setGeometry(frame_box.x() + 10, frame_box.y() + 20, 20, 30);
     // 加入左移按钮
     left_button.setParent(this);
     left_button.setText("◀");
-    left_button.setGeometry(test_image.width() + 50, 20, 30, 30);
+    left_button.setGeometry((frame_label.x() + frame_label.width()) + 10, frame_box.y() + 20, 30, 30);
     // 加入滚动条
     slider.setParent(this);
     slider.setOrientation(Qt::Horizontal);
-    slider.setGeometry(test_image.width() + 90, 20, 100, 30);
+    slider.setGeometry((left_button.x() + left_button.width()) + 10, frame_box.y() + 20, 100, 30);
     slider.setRange(1, FRAME_NUM);
     slider.setSingleStep(1);
     slider.setTickPosition(QSlider::TicksBelow);
     // 加入右移按钮
     right_button.setParent(this);
     right_button.setText("▶");
-    right_button.setGeometry(test_image.width() + 200, 20, 30, 30);
+    right_button.setGeometry((slider.x() + slider.width()) + 10, frame_box.y() + 20, 30, 30);
+    // 加入绘画功能区控件盒
+    draw_box.setParent(this);
+    draw_box.setTitle("Draw Control");
+    draw_box.setGeometry(frame_box.x(), frame_box.y() + frame_box.height() + 10, 230, 120);
+    // 加入删除最近点组合按钮
+    delete_prev_button.setParent(this);
+    delete_prev_button.setText("Delete Prev");
+    delete_prev_button.setGeometry(draw_box.x() + 10, draw_box.y() + 20, 100, 30);
+
 }
 
 void SketchWindow::initSignalAndSlots() {
@@ -64,6 +73,8 @@ void SketchWindow::initSignalAndSlots() {
     connect(&right_button, &QPushButton::clicked, this, &SketchWindow::onFrameRightButtonClicked);
     // 滑动条的值改变事件
     connect(&slider, &QSlider::valueChanged, this, &SketchWindow::onFrameSliderValueChange);
+    // 删除最近按钮的点击事件
+    connect(&delete_prev_button, &QPushButton::clicked, this, &SketchWindow::onDeletePrevClicked);
 
 }
 
@@ -82,7 +93,7 @@ void SketchWindow::onFrameLeftButtonClicked() {
     // 帧号自减
     canvas.frameCursorAutoDecrease();
     // 替换帧
-    canvas.replaceFrame();
+    canvas.reDraw();
     // 变更帧号显示
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
     // 更改滑块位置
@@ -93,7 +104,7 @@ void SketchWindow::onFrameRightButtonClicked() {
     // 帧号自加
     canvas.frameCursorAutoIncrease();
     // 替换帧
-    canvas.replaceFrame();
+    canvas.reDraw();
     // 变更帧号显示
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
     // 更改滑块位置
@@ -104,7 +115,12 @@ void SketchWindow::onFrameSliderValueChange() {
     // 按照滑块位置设置值
     canvas.setFrameCursor(this->slider.value() - 1);
     // 替换帧
-    canvas.replaceFrame();
+    canvas.reDraw();
     // 变更帧号显示
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
+}
+
+void SketchWindow::onDeletePrevClicked() {
+    canvas.curveInsertCursorRewind();
+    canvas.reDraw();
 }

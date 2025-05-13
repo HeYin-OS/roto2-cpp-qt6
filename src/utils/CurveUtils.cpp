@@ -111,6 +111,14 @@ void BezierCurveContainer::moveControlPoint(QPoint &point) {
 
 }
 
-void BezierCurveContainer::deleteByAnchorPoint(int index) {
-
+void BezierCurveContainer::deleteFromLast() {
+    if(points.size() >= 4) {
+        points.erase(points.end() - 4, points.end());
+    }
+    if(points.size() >0) {
+        points[points.size() - 1].first = 0;
+        points[points.size() - 1].second = 0;
+        points[points.size() - 2].first = 0;
+        points[points.size() - 2].second = 0;
+    }
 }

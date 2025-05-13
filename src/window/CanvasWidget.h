@@ -13,6 +13,8 @@ class CanvasWidget : public QWidget {
 public:
     CanvasWidget(QWidget *parent = nullptr);
 
+    void curveInsertCursorRewind();
+
     int getFrameCursor() const;
 
     void setFrameCursor(int val);
@@ -21,7 +23,7 @@ public:
 
     void frameCursorAutoDecrease();
 
-    void replaceFrame();
+    void reDraw();
 
 protected:
     void paintEvent(QPaintEvent *event) override;

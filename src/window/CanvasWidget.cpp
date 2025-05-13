@@ -66,7 +66,7 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
     // 曲线指示游标后移
     curve_insert_cursor[frame_cursor]++;
     // 测试
-//    bezier_container[frame_cursor].printAll();
+    bezier_container[frame_cursor].printAll();
     // 重画
     update();
     // 其余工作
@@ -109,7 +109,20 @@ void CanvasWidget::frameCursorAutoDecrease() {
     }
 }
 
-void CanvasWidget::replaceFrame() {
+void CanvasWidget::reDraw() {
     // 重新按照帧号绘制
     update();
+}
+
+void CanvasWidget::curveInsertCursorRewind() {
+    // 当前插入序号
+    auto curr_idx = curve_insert_cursor[frame_cursor];
+    // 通过插入序号删除
+    bezier_container[frame_cursor].deleteFromLast();
+    // 测试
+    bezier_container[frame_cursor].printAll();
+    // 插入序号后退
+    curve_insert_cursor[frame_cursor]--;
+    // 防止越界
+    if (curve_insert_cursor[frame_cursor] < 0) curve_insert_cursor[frame_cursor] = 0;
 }

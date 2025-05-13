@@ -21,6 +21,7 @@ private slots:
     void onFrameLeftButtonClicked();
     void onFrameRightButtonClicked();
     void onFrameSliderValueChange();
+    void onDeletePrevClicked();
 
 private:
     CanvasWidget canvas;
@@ -30,6 +31,8 @@ private:
     QSlider slider; //帧滚动条
     QPushButton right_button; //帧前进
     QGroupBox frame_box; //帧控制功能区
+    QGroupBox draw_box; //绘画功能控制区
+    QPushButton delete_prev_button; //删除最近绘画点
 
     void initComponentsAndLayout();
     void initSignalAndSlots();

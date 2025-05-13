@@ -29,6 +29,7 @@ private:
     QPushButton left_button; //帧后退
     QSlider slider; //帧滚动条
     QPushButton right_button; //帧前进
+    QGroupBox frame_box; //帧控制功能区
 
     void initComponentsAndLayout();
     void initSignalAndSlots();

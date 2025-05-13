@@ -28,6 +28,7 @@
 #include <QMouseEvent>
 #include <QPoint>
 #include <QPainterPath>
+#include <QGroupBox>
 
 #include <opencv2/opencv.hpp>
 

@@ -20,7 +20,7 @@ void SketchWindow::initComponentsAndLayout() {
     // 窗体名
     this->setWindowTitle("Sketching Board");
     // 由于工具栏扩展窗体尺寸
-    int tool_expansion_space = 240;
+    int tool_expansion_space = 250;
     QPixmap test_image((string(TEST_VIDEO_FIRST_FRAME_URL) + "00000.jpg").c_str());
     this->setFixedSize(test_image.width() + tool_expansion_space, test_image.height());
     // 窗体移动至屏幕中央
@@ -32,26 +32,29 @@ void SketchWindow::initComponentsAndLayout() {
     // 加入绘画控件
     canvas.setGeometry(0, 0, test_image.width(), test_image.height());
     // 帧控制相关
+    // 加入控件盒
+    frame_box.setParent(this);
+    frame_box.setTitle("Frame Control");
+    frame_box.setGeometry(test_image.width() + 10, 0, 230, 60);
     // 加入标签显示当前帧的序号
     frame_label.setParent(this);
     frame_label.setText(QString::number(1));
-    frame_label.setGeometry(test_image.width() + 10, 10, 30, 30);
+    frame_label.setGeometry(test_image.width() + 20, 20, 20, 30);
     // 加入左移按钮
     left_button.setParent(this);
     left_button.setText("◀");
-    left_button.setGeometry(test_image.width() + 50, 10, 30, 30);
+    left_button.setGeometry(test_image.width() + 50, 20, 30, 30);
     // 加入滚动条
     slider.setParent(this);
     slider.setOrientation(Qt::Horizontal);
-    slider.setGeometry(test_image.width() + 90, 10, 100, 30);
+    slider.setGeometry(test_image.width() + 90, 20, 100, 30);
     slider.setRange(1, FRAME_NUM);
     slider.setSingleStep(1);
     slider.setTickPosition(QSlider::TicksBelow);
     // 加入右移按钮
     right_button.setParent(this);
     right_button.setText("▶");
-    right_button.setGeometry(test_image.width() + 200, 10, 30, 30);
-
+    right_button.setGeometry(test_image.width() + 200, 20, 30, 30);
 }
 
 void SketchWindow::initSignalAndSlots() {

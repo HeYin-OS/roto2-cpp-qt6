@@ -74,23 +74,29 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 int CanvasWidget::getFrameCursor() const {
+    // 返回当前帧号
     return this->frame_cursor;
 }
 
 void CanvasWidget::frameCursorAutoIncrease() {
+    // 往后移动帧
     this->frame_cursor++;
+    // 防止越界
     if (this->frame_cursor >= frameHandler.getFrameNum()) {
         this->frame_cursor = frameHandler.getFrameNum() - 1;
     }
 }
 
 void CanvasWidget::frameCursorAutoDecrease() {
+    // 往前移动帧
     this->frame_cursor--;
+    // 防止越界
     if (this->frame_cursor < 0) {
         this->frame_cursor = 0;
     }
 }
 
 void CanvasWidget::replaceFrame() {
+    // 重新按照帧号绘制
     update();
 }

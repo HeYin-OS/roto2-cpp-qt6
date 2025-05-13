@@ -6,8 +6,11 @@
 SketchWindow::SketchWindow(QWidget *parent) :
         QMainWindow(parent),
         canvas(this) {
+    // 初始化窗口控件和各种布局调整
     this->initComponentsAndLayout();
+    // 初始化信号和槽
     this->initSignalAndSlots();
+    // 启用鼠标捕捉
     setMouseTracking(true);
 }
 
@@ -57,20 +60,30 @@ void SketchWindow::initSignalAndSlots() {
 }
 
 void SketchWindow::moveToCenter() {
+    // 当前窗口几何位置成员
     auto qr = this->geometry();
+    // 获取屏幕的中心点
     auto cp = this->screen()->availableGeometry().center();
+    // 移动至中心点
     qr.moveCenter(cp);
+    // 偏左上
     move(qr.topLeft());
 }
 
 void SketchWindow::onFrameLeftButtonClicked() {
+    // 帧号自减
     canvas.frameCursorAutoDecrease();
+    // 替换帧
     canvas.replaceFrame();
+    // 变更帧号显示
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
 }
 
 void SketchWindow::onFrameRightButtonClicked() {
+    // 帧号自加
     canvas.frameCursorAutoIncrease();
+    // 替换帧
     canvas.replaceFrame();
+    // 变更帧号显示
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
 }

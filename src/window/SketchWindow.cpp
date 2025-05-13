@@ -92,7 +92,7 @@ void SketchWindow::moveToCenter() {
 void SketchWindow::onFrameLeftButtonClicked() {
     // 帧号自减
     canvas.frameCursorAutoDecrease();
-    // 替换帧
+    // 重画
     canvas.reDraw();
     // 变更帧号显示
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
@@ -103,7 +103,7 @@ void SketchWindow::onFrameLeftButtonClicked() {
 void SketchWindow::onFrameRightButtonClicked() {
     // 帧号自加
     canvas.frameCursorAutoIncrease();
-    // 替换帧
+    // 重画
     canvas.reDraw();
     // 变更帧号显示
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
@@ -114,13 +114,15 @@ void SketchWindow::onFrameRightButtonClicked() {
 void SketchWindow::onFrameSliderValueChange() {
     // 按照滑块位置设置值
     canvas.setFrameCursor(this->slider.value() - 1);
-    // 替换帧
+    // 重画
     canvas.reDraw();
     // 变更帧号显示
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
 }
 
 void SketchWindow::onDeletePrevClicked() {
+    // 退回最近一次绘画操作
     canvas.curveInsertCursorRewind();
+    // 重画
     canvas.reDraw();
 }

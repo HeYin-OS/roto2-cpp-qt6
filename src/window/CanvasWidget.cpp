@@ -115,8 +115,6 @@ void CanvasWidget::reDraw() {
 }
 
 void CanvasWidget::curveInsertCursorRewind() {
-    // 当前插入序号
-    auto curr_idx = curve_insert_cursor[frame_cursor];
     // 通过插入序号删除
     bezier_container[frame_cursor].deleteFromLast();
     // 测试

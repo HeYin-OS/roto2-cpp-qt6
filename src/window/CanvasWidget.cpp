@@ -35,7 +35,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
     auto max_height = frameHandler.getMaxHeight();
     if (p.x() < 0 || p.y() < 0 || p.x() > max_width || p.y() > max_height) return;
     // 加入至管理容器
-    bezier_container[frame_cursor].addStartEndPoint(p, curve_insert_cursor[frame_cursor]);;
+    bezier_container[frame_cursor].addStartEndPoint(p, curve_insert_cursor[frame_cursor]);
     bezier_container[frame_cursor].addControlPoint(p, curve_insert_cursor[frame_cursor], max_width, max_height);
     // 重画
     this->reDraw();

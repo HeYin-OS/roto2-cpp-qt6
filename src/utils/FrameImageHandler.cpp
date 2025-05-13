@@ -12,7 +12,7 @@ FrameImgHandler::FrameImgHandler(string url) :
     // 初始化最大宽度
     this->width_max = frame_cache[0].width();
     // 初始化最大高度
-    this->height_max = frame_cache[0].height();;
+    this->height_max = frame_cache[0].height();
 }
 
 string FrameImgHandler::getFrameUrl(int idx) {

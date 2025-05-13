@@ -78,6 +78,19 @@ int CanvasWidget::getFrameCursor() const {
     return this->frame_cursor;
 }
 
+void CanvasWidget::setFrameCursor(int val) {
+    // 设置值
+    this->frame_cursor = val;
+    // 防止越界
+    if (this->frame_cursor >= frameHandler.getFrameNum()) {
+        this->frame_cursor = frameHandler.getFrameNum() - 1;
+    }
+    // 防止越界
+    if (this->frame_cursor < 0) {
+        this->frame_cursor = 0;
+    }
+}
+
 void CanvasWidget::frameCursorAutoIncrease() {
     // 往后移动帧
     this->frame_cursor++;

@@ -20,6 +20,7 @@ protected:
 private slots:
     void onFrameLeftButtonClicked();
     void onFrameRightButtonClicked();
+    void onFrameSliderValueChange();
 
 private:
     CanvasWidget canvas;

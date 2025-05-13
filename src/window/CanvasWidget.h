@@ -15,6 +15,8 @@ public:
 
     int getFrameCursor() const;
 
+    void setFrameCursor(int val);
+
     void frameCursorAutoIncrease();
 
     void frameCursorAutoDecrease();

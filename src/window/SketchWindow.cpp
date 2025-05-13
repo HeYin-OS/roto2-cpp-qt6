@@ -44,6 +44,9 @@ void SketchWindow::initComponentsAndLayout() {
     slider.setParent(this);
     slider.setOrientation(Qt::Horizontal);
     slider.setGeometry(test_image.width() + 90, 10, 100, 30);
+    slider.setRange(1, FRAME_NUM);
+    slider.setSingleStep(1);
+    slider.setTickPosition(QSlider::TicksBelow);
     // 加入右移按钮
     right_button.setParent(this);
     right_button.setText("▶");
@@ -56,6 +59,8 @@ void SketchWindow::initSignalAndSlots() {
     connect(&left_button, &QPushButton::clicked, this, &SketchWindow::onFrameLeftButtonClicked);
     // 帧后退键的点击事件
     connect(&right_button, &QPushButton::clicked, this, &SketchWindow::onFrameRightButtonClicked);
+    // 滑动条的值改变事件
+    connect(&slider, &QSlider::valueChanged, this, &SketchWindow::onFrameSliderValueChange);
 
 }
 
@@ -77,11 +82,24 @@ void SketchWindow::onFrameLeftButtonClicked() {
     canvas.replaceFrame();
     // 变更帧号显示
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
+    // 更改滑块位置
+    this->slider.setValue(canvas.getFrameCursor() + 1);
 }
 
 void SketchWindow::onFrameRightButtonClicked() {
     // 帧号自加
     canvas.frameCursorAutoIncrease();
+    // 替换帧
+    canvas.replaceFrame();
+    // 变更帧号显示
+    this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
+    // 更改滑块位置
+    this->slider.setValue(canvas.getFrameCursor() + 1);
+}
+
+void SketchWindow::onFrameSliderValueChange() {
+    // 按照滑块位置设置值
+    canvas.setFrameCursor(this->slider.value() - 1);
     // 替换帧
     canvas.replaceFrame();
     // 变更帧号显示

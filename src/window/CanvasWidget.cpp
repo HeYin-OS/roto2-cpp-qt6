@@ -38,7 +38,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
     bezier_container[frame_cursor].addStartEndPoint(p, curve_insert_cursor[frame_cursor]);;
     bezier_container[frame_cursor].addControlPoint(p, curve_insert_cursor[frame_cursor], max_width, max_height);
     // 重画
-    update();
+    this->reDraw();
     // 其余工作
     QWidget::mousePressEvent(event);
 }
@@ -55,7 +55,7 @@ void CanvasWidget::mouseMoveEvent(QMouseEvent *event) {
         bezier_container[frame_cursor].addControlPoint(p, curve_insert_cursor[frame_cursor], max_width, max_height);
     }
     // 重画
-    update();
+    this->reDraw();
     // 其余工作
     QWidget::mouseMoveEvent(event);
 }
@@ -68,7 +68,7 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
     // 测试
     bezier_container[frame_cursor].printAll();
     // 重画
-    update();
+    this->reDraw();
     // 其余工作
     QWidget::mouseReleaseEvent(event);
 }
@@ -109,7 +109,7 @@ void CanvasWidget::frameCursorAutoDecrease() {
     }
 }
 
-void CanvasWidget::reDraw() {
+void inline CanvasWidget::reDraw() {
     // 重新按照帧号绘制
     update();
 }

@@ -23,7 +23,7 @@ public:
 
     void frameCursorAutoDecrease();
 
-    void reDraw();
+    void inline reDraw();
 
 protected:
     void paintEvent(QPaintEvent *event) override;

@@ -32,7 +32,7 @@
 
 #include <opencv2/opencv.hpp>
 
-#define TEST_VIDEO_FIRST_FRAME_URL "../test/bear/" //测试路径头
+#define TEST_VIDEO_FIRST_FRAME_URL "../test/bear/" // 测试路径头
 #define FRAME_NUM 82 // 测试总帧数
 
 #endif //ROTO_2_CPP_MACROS_H

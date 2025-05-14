@@ -8,7 +8,7 @@ CanvasWidget::CanvasWidget(QWidget *parent) :
         QWidget(parent),
         isMousePressing(false),
         frame_cursor(0),
-        frameHandler(TEST_VIDEO_FIRST_FRAME_URL) {
+        frameHandler(g_frame0_url_head) {
     setMinimumSize(frameHandler.getFrame(0).size());
     setMouseTracking(true);
 }

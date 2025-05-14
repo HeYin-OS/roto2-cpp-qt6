@@ -21,7 +21,7 @@ void SketchWindow::initComponentsAndLayout() {
     this->setWindowTitle("Sketching Board");
     // 由于工具栏扩展窗体尺寸
     int tool_expansion_space = 250;
-    QPixmap test_image((string(TEST_VIDEO_FIRST_FRAME_URL) + "00000.jpg").c_str());
+    QPixmap test_image((g_frame0_url_head + "00000.jpg").c_str());
     this->setFixedSize(test_image.width() + tool_expansion_space, test_image.height());
     // 窗体移动至屏幕中央
     this->moveToCenter();
@@ -48,7 +48,7 @@ void SketchWindow::initComponentsAndLayout() {
     slider.setParent(this);
     slider.setOrientation(Qt::Horizontal);
     slider.setGeometry((left_button.x() + left_button.width()) + 10, frame_box.y() + 20, 100, 30);
-    slider.setRange(1, FRAME_NUM);
+    slider.setRange(1, g_frame_num);
     slider.setSingleStep(1);
     slider.setTickPosition(QSlider::TicksBelow);
     // 加入右移按钮

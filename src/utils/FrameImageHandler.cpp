@@ -6,7 +6,7 @@
 
 FrameImgHandler::FrameImgHandler(string url) :
         frame_url_head(url),
-        frame_num(FRAME_NUM) {
+        frame_num(g_frame_num) {
     // 初始化全部帧
     this->initFrameCache();
     // 初始化最大宽度

@@ -36,10 +36,10 @@ protected:
 
 private:
     bool isMousePressing = false;
-    array<int, FRAME_NUM> curve_insert_cursor{};
+    array<int, g_frame_num> curve_insert_cursor{};
     int frame_cursor;
 
-    array<BezierCurveContainer, FRAME_NUM> bezier_container;
+    array<BezierCurveContainer, g_frame_num> bezier_container;
     FrameImgHandler frameHandler;
 };
 

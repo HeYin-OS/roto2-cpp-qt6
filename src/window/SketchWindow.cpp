@@ -23,9 +23,18 @@ void SketchWindow::initSignalAndSlots() {
     connect(&right_button, &QPushButton::clicked, this, &SketchWindow::onFrameRightButtonClicked);
     // 滑动条的值改变事件
     connect(&slider, &QSlider::valueChanged, this, &SketchWindow::onFrameSliderValueChange);
+    // 帧1按钮的点击事件
+    connect(&to_frame1_button, &QPushButton::clicked, this, &SketchWindow::onToFrameOneButtonClicked);
+    // 帧2按钮的点击事件
+    connect(&to_frame2_button, &QPushButton::clicked, this, &SketchWindow::onToFrameTwoButtonClicked);
     // 删除最近按钮的点击事件
     connect(&delete_prev_button, &QPushButton::clicked, this, &SketchWindow::onDeletePrevClicked);
-
+    // 删除当前画布按钮的点击事件
+    connect(&canvas_clear_button, &QPushButton::clicked, this, &SketchWindow::onClearCanvasButtonClicked);
+    // 切换水平线可见度按钮的点击事件
+    connect(&toggle_dir_line_button, &QPushButton::clicked, this, &SketchWindow::onToggleDirLineButtonClicked);
+    // 切换终点可见度按钮的点击事件
+    connect(&toggle_endpoint_button, &QPushButton::clicked, this, &SketchWindow::onToggleEndPointButtonClicked);
 }
 
 void SketchWindow::moveToCenter() {
@@ -70,9 +79,46 @@ void SketchWindow::onFrameSliderValueChange() {
     this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
 }
 
+void SketchWindow::onToFrameOneButtonClicked() {
+    // 从滚动条获取值
+    auto frame_num = this->slider.value();
+    // 设置值
+    this->frame1_label.setText(QString::number(frame_num));
+}
+
+void SketchWindow::onToFrameTwoButtonClicked() {
+    // 从滚动条获取值
+    auto frame_num = this->slider.value();
+    // 设置值
+    this->frame2_label.setText(QString::number(frame_num));
+}
+
 void SketchWindow::onDeletePrevClicked() {
     // 退回最近一次绘画操作
     canvas.curveInsertCursorRewind();
+    // 重画
+    canvas.reDraw();
+}
+
+void SketchWindow::onClearCanvasButtonClicked() {
+    // 重复删除
+    while (canvas.getPointNum() > 0) {
+        canvas.curveInsertCursorRewind();
+    }
+    // 重画
+    canvas.reDraw();
+}
+
+void SketchWindow::onToggleDirLineButtonClicked() {
+    // 切换可见度
+    canvas.toggleDirectionLineVisibility();
+    // 重画
+    canvas.reDraw();
+}
+
+void SketchWindow::onToggleEndPointButtonClicked() {
+    // 切换可见度
+    canvas.toggleEndPointVisibility();
     // 重画
     canvas.reDraw();
 }
@@ -136,9 +182,9 @@ void SketchWindow::initComponentsAndLayout() {
     delete_prev_button.setText("Delete Latest");
     delete_prev_button.setGeometry(draw_box.x() + 10, draw_box.y() + 20, 100, 30);
     // 加入清楚当前帧全部笔迹按钮
-    ac_button.setParent(this);
-    ac_button.setText("Clear All");
-    ac_button.setGeometry(delete_prev_button.x() + delete_prev_button.width() + 10, delete_prev_button.y(), 100, 30);
+    canvas_clear_button.setParent(this);
+    canvas_clear_button.setText("Clear Canvas");
+    canvas_clear_button.setGeometry(delete_prev_button.x() + delete_prev_button.width() + 10, delete_prev_button.y(), 100, 30);
     //
     // 显示功能区
     //

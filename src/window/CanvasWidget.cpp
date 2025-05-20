@@ -8,9 +8,20 @@ CanvasWidget::CanvasWidget(QWidget *parent) :
         QWidget(parent),
         isMousePressing(false),
         frame_cursor(0),
-        frameHandler(g_frame0_url_head) {
+        frameHandler(g_frame0_url_head){
     setMinimumSize(frameHandler.getFrame(0).size());
     setMouseTracking(true);
+}
+
+void CanvasWidget::curveInsertCursorRewind() {
+    // 通过插入序号删除
+    bezier_container[frame_cursor].deleteFromLast();
+    // 测试
+    bezier_container[frame_cursor].printAll();
+    // 插入序号后退
+    curve_insert_cursor[frame_cursor]--;
+    // 防止越界
+    if (curve_insert_cursor[frame_cursor] < 0) curve_insert_cursor[frame_cursor] = 0;
 }
 
 void CanvasWidget::paintEvent(QPaintEvent *event) {
@@ -78,6 +89,10 @@ int CanvasWidget::getFrameCursor() const {
     return this->frame_cursor;
 }
 
+int CanvasWidget::getPointNum() const {
+    return bezier_container[frame_cursor].getPointCount();
+}
+
 void CanvasWidget::setFrameCursor(int val) {
     // 设置值
     this->frame_cursor = val;
@@ -109,18 +124,17 @@ void CanvasWidget::frameCursorAutoDecrease() {
     }
 }
 
+void CanvasWidget::toggleDirectionLineVisibility() {
+    // 切换
+    this->bezier_container[frame_cursor].setDirectionLineVisibility(!this->bezier_container[frame_cursor].getDirectionLineVisibility());
+}
+
+void CanvasWidget::toggleEndPointVisibility() {
+    // 切换
+    this->bezier_container[frame_cursor].setEndPointVisibility(!this->bezier_container[frame_cursor].getEndPointVisibility());
+}
+
 void inline CanvasWidget::reDraw() {
     // 重新按照帧号绘制
     update();
-}
-
-void CanvasWidget::curveInsertCursorRewind() {
-    // 通过插入序号删除
-    bezier_container[frame_cursor].deleteFromLast();
-    // 测试
-    bezier_container[frame_cursor].printAll();
-    // 插入序号后退
-    curve_insert_cursor[frame_cursor]--;
-    // 防止越界
-    if (curve_insert_cursor[frame_cursor] < 0) curve_insert_cursor[frame_cursor] = 0;
 }

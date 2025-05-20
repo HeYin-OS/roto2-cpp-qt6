@@ -21,7 +21,12 @@ private slots:
     void onFrameLeftButtonClicked();
     void onFrameRightButtonClicked();
     void onFrameSliderValueChange();
+    void onToFrameOneButtonClicked();
+    void onToFrameTwoButtonClicked();
     void onDeletePrevClicked();
+    void onClearCanvasButtonClicked();
+    void onToggleDirLineButtonClicked();
+    void onToggleEndPointButtonClicked();
 
 private:
     CanvasWidget canvas;
@@ -37,7 +42,7 @@ private:
     // 绘画功能控制区
     QGroupBox draw_box;
     QPushButton delete_prev_button; //删除最近绘画点
-    QPushButton ac_button; //清楚全部绘画点
+    QPushButton canvas_clear_button; //清除当前画布
     // 显示功能控制区
     QGroupBox show_box;
     QPushButton toggle_dir_line_button; //切换辅助线按钮

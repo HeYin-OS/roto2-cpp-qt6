@@ -31,6 +31,15 @@ public:
     // point access
     pair<float, float> getPoint(int curve_index, int point_index) const;
 
+    // setters
+    void setDirectionLineVisibility(bool val);
+    void setEndPointVisibility(bool val);
+
+    // getters
+    bool getDirectionLineVisibility() const;
+    bool getEndPointVisibility() const;
+    int getPointCount() const;
+
     // debug
     void printAll() const;
 
@@ -39,7 +48,8 @@ protected:
 
 private:
     vector<pair<float, float>> points;
-
+    bool show_direction_line = true;
+    bool show_end_point = true;
 };
 
 #endif //ROTO_2_CPP_CURVECONTAINER_H

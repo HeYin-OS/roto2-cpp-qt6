@@ -17,11 +17,17 @@ public:
 
     int getFrameCursor() const;
 
+    int getPointNum() const;
+
     void setFrameCursor(int val);
 
     void frameCursorAutoIncrease();
 
     void frameCursorAutoDecrease();
+
+    void toggleDirectionLineVisibility();
+
+    void toggleEndPointVisibility();
 
     void inline reDraw();
 

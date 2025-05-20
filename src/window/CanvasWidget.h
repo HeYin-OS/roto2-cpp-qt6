@@ -2,8 +2,8 @@
 // Created by 12544 on 25-4-14.
 //
 
-#include "../utils/CurveUtils.h"
-#include "../utils/FrameImageHandler.h"
+#include "../data/CurveUtils.h"
+#include "../data/FrameImageHandler.h"
 #include "../macros.h"
 
 #ifndef ROTO_2_CPP_CANVASWIDGET_H
@@ -28,6 +28,8 @@ public:
     void toggleDirectionLineVisibility();
 
     void toggleEndPointVisibility();
+
+    void fitBetween(int idx1, int idx2);
 
     void inline reDraw();
 

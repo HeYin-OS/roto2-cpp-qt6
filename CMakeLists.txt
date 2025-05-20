@@ -21,13 +21,14 @@ add_executable(roto_2_cpp
         src/window/SketchWindow.cpp
         src/window/CanvasWidget.cpp
         src/window/CanvasWidget.h
-        src/utils/CurveUtils.cpp
-        src/utils/CurveUtils.h
-        src/utils/VideoHandler.cpp
-        src/utils/VideoHandler.h
-        src/utils/FrameImageHandler.cpp
-        src/utils/FrameImageHandler.h
+        src/data/CurveUtils.cpp
+        src/data/CurveUtils.h
+        src/data/VideoHandler.cpp
+        src/data/VideoHandler.h
+        src/data/FrameImageHandler.cpp
+        src/data/FrameImageHandler.h
         src/macros.h
+        src/utils/utils.h
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

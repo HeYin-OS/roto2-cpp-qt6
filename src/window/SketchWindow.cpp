@@ -123,6 +123,17 @@ void SketchWindow::onToggleEndPointButtonClicked() {
     canvas.reDraw();
 }
 
+void SketchWindow::onFitButtonClicked() {
+    // 当之间没有帧时无法计算
+    auto frame1_num = this->frame1_label.text().toInt();
+    auto frame2_num = this->frame2_label.text().toInt();
+    if (frame2_num - frame1_num < 2) return;
+    // 拟合
+    canvas.fitBetween(frame1_num - 1, frame2_num - 1);
+    // 重画
+    canvas.reDraw();
+}
+
 void SketchWindow::initComponentsAndLayout() {
     // 窗体名
     this->setWindowTitle("Sketching Board");

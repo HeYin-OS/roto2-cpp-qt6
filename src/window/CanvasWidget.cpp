@@ -134,6 +134,10 @@ void CanvasWidget::toggleEndPointVisibility() {
     this->bezier_container[frame_cursor].setEndPointVisibility(!this->bezier_container[frame_cursor].getEndPointVisibility());
 }
 
+void CanvasWidget::fitBetween(int idx1, int idx2) {
+
+}
+
 void inline CanvasWidget::reDraw() {
     // 重新按照帧号绘制
     update();

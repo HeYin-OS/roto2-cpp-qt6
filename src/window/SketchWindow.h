@@ -27,6 +27,7 @@ private slots:
     void onClearCanvasButtonClicked();
     void onToggleDirLineButtonClicked();
     void onToggleEndPointButtonClicked();
+    void onFitButtonClicked();
 
 private:
     CanvasWidget canvas;

@@ -133,9 +133,10 @@ void CanvasWidget::toggleEndPointVisibility() {
 }
 
 void CanvasWidget::fitBetween(const int idx1, const int idx2) {
-    // 拷贝全部曲线到全部帧
+    // 拷贝全部曲线到全部帧并且拷贝插入位置
     for (auto i = idx1 + 1; i <= idx2; ++i) {
         this->curves[i].cloneControlPoints(this->curves[idx1]);
+        this->current_insert_idx[i] = this->curves[idx1].getPointCount();
     }
     // 获得采样点的位置
 

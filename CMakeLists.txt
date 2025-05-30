@@ -14,6 +14,7 @@ set(OpenCV_ROOT "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv")
 
 find_package(Qt6 COMPONENTS Core Widgets Gui REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(Eigen3 CONFIG REQUIRED)
 
 add_executable(roto_2_cpp
         src/main.cpp
@@ -36,6 +37,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt6::Widgets
         Qt6::Gui
         ${OpenCV_LIBS}
+        Eigen3::Eigen
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})

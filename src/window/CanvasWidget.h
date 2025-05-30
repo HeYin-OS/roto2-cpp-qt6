@@ -44,10 +44,10 @@ protected:
 
 private:
     bool isMousePressing = false;
-    array<int, g_frame_num> curve_insert_cursor{};
-    int frame_cursor;
+    array<int, g_frame_num> current_insert_idx{};
+    int current_frame;
 
-    array<BezierCurveContainer, g_frame_num> bezier_container;
+    array<BezierCurve, g_frame_num> curves;
     FrameImgHandler frameHandler;
 };
 

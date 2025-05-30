@@ -32,7 +32,15 @@
 
 #include <opencv2/opencv.hpp>
 
+#include <Eigen/Dense>
+
 const std::string g_frame0_url_head("../test/bear/"); // 测试路径头
 const int g_frame_num = 82; // 测试总帧数
+
+const double g_w_v = 0.1;
+const int g_w_l = 500;
+const int g_w_c = 40000;
+const int g_w_i = 1;
+const int g_w_g = 1000;
 
 #endif //ROTO_2_CPP_MACROS_H

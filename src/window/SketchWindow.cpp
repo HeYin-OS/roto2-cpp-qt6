@@ -35,6 +35,8 @@ void SketchWindow::initSignalAndSlots() {
     connect(&toggle_dir_line_button, &QPushButton::clicked, this, &SketchWindow::onToggleDirLineButtonClicked);
     // 切换终点可见度按钮的点击事件
     connect(&toggle_endpoint_button, &QPushButton::clicked, this, &SketchWindow::onToggleEndPointButtonClicked);
+    // 拟合按钮的点击事件
+    connect(&fit_button, &QPushButton::clicked, this, &SketchWindow::onFitButtonClicked);
 }
 
 void SketchWindow::moveToCenter() {

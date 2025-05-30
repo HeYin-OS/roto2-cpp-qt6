@@ -16,11 +16,6 @@ public:
 
     void addControlPoint(const QPoint& point, int index, int x_max, int y_max);
 
-    // drawer function
-    void drawReferLine(QPainter& painter);
-
-    void drawBezierCurve(QPainter& painter);
-
     // moving function
     void moveAnchorPoint(QPoint& point);
 
@@ -43,14 +38,13 @@ public:
     bool getDirectionLineVisibility() const;
     bool getEndPointVisibility() const;
     int getPointCount() const;
+    const vector<pair<float, float>>& getControlPoints() const;
 
     // debug
     void printAll() const;
 
 private:
     vector<pair<float, float>> control_points;
-    bool show_direction_line = true;
-    bool show_end_point = true;
 };
 
 #endif //ROTO_2_CPP_CURVECONTAINER_H

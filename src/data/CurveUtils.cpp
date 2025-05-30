@@ -34,66 +34,6 @@ void BezierCurve::addControlPoint(const QPoint &point, const int index, const in
     control_points[index * 4 - 2] = {control_x, control_y};
 }
 
-void BezierCurve::drawBezierCurve(QPainter &painter) {
-    // initials
-    painter.setPen(QPen(QColor(255, 255, 0), 4)); // yellow
-    // the number of curves
-    for (int i = 0; i < control_points.size(); i += 4) {
-        auto [x0, y0] = control_points[i];
-        auto [x1, y1] = control_points[i + 1];
-        auto [x2, y2] = control_points[i + 2];
-        auto [x3, y3] = control_points[i + 3];
-        if (x2 == 0.f && y2 == 0.f) break;
-        // draw bezier curve
-        QPainterPath path;
-        path.moveTo(QPointF(x0, y0));
-        path.cubicTo(QPointF(x1, y1),
-                     QPointF(x2, y2),
-                     QPointF(x3, y3));
-        painter.drawPath(path);
-    }
-}
-
-void BezierCurve::drawReferLine(QPainter &painter) {
-    // draw anchor lines
-    if (this->show_direction_line)
-    {
-        painter.setPen(QPen(QColor(0, 255, 0), 1)); // green
-        for (int i = 0; i < control_points.size(); i += 2) {
-            auto [x0, y0] = control_points[i];
-            auto [x1, y1] = control_points[i + 1];
-            // skip empty lines
-            if (x0 == 0.f && y0 == 0.f) break;
-            painter.drawLine(x0, y0, x1, y1);
-        }
-    }
-    // draw anchor points
-    painter.setPen(QPen(QColor(255, 0, 0), 4)); // Red with bold
-    for (int i = 0; i < control_points.size(); i += 4) {
-        auto [x0, y0] = control_points[i];
-        auto [x1, y1] = control_points[i + 3];
-        // incomplete points due to pen tool
-        painter.drawPoint(x0, y0);
-        // skip empty points
-        if (x1 == 0.f && y1 == 0.f) break;
-        painter.drawPoint(x1, y1);
-    }
-    // draw control points
-    if (this->show_end_point)
-    {
-        painter.setPen(QPen(QColor(0, 255, 0), 4)); // Green with bold
-        for (int i = 0; i < control_points.size(); i += 4) {
-            auto [x0, y0] = control_points[i + 1];
-            auto [x1, y1] = control_points[i + 2];
-            painter.drawPoint(x0, y0);
-            // skip empty points
-            if (x1 == 0.f && y1 == 0.f) break;
-            painter.drawPoint(x1, y1);
-        }
-    }
-
-}
-
 pair<float, float> BezierCurve::getPoint(int curve_index, const int point_index) const {
     return control_points[curve_index * 4 + point_index];
 }
@@ -108,11 +48,9 @@ void BezierCurve::printAll() const {
 }
 
 void BezierCurve::moveAnchorPoint(QPoint &point) {
-
 }
 
 void BezierCurve::moveControlPoint(QPoint &point) {
-
 }
 
 void BezierCurve::deleteFromLast() {
@@ -131,23 +69,11 @@ int BezierCurve::getPointCount() const {
     return control_points.size();
 }
 
-void BezierCurve::cloneControlPoints(const BezierCurve &source){
+const vector<pair<float, float> > &BezierCurve::getControlPoints() const {
+    return control_points;
+}
+
+void BezierCurve::cloneControlPoints(const BezierCurve &source) {
     this->control_points = {};
     this->control_points = source.control_points;
-}
-
-void BezierCurve::setDirectionLineVisibility(const bool val) {
-    show_direction_line = val;
-}
-
-void BezierCurve::setEndPointVisibility(const bool val) {
-    show_end_point = val;
-}
-
-bool BezierCurve::getDirectionLineVisibility() const {
-    return show_direction_line;
-}
-
-bool BezierCurve::getEndPointVisibility() const {
-    return show_end_point;
 }

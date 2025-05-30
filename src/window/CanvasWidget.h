@@ -49,13 +49,16 @@ private:
     array<BezierCurve, g_frame_num> curves;
     // 全部帧
     FrameImgHandler frames;
-    // 显示控制项
+    // 显示手柄参考线
     bool show_direction_line = true;
+    // 显示曲线上的控制点
     bool show_end_point = true;
 
-    //
-    void drawReferLine(QPainter& painter);
-    void drawBezierCurve(QPainter& painter);
+
+    // 绘制手柄参考线
+    void drawReferLine(QPainter& painter) const;
+    // 绘制贝塞尔曲线
+    void drawBezierCurve(QPainter& painter) const;
 };
 
 #endif //ROTO_2_CPP_CANVASWIDGET_H

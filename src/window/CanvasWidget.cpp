@@ -4,10 +4,9 @@
 
 #include "CanvasWidget.h"
 
-CanvasWidget::CanvasWidget(QWidget *parent) :
-        QWidget(parent),
-        current_frame(0),
-        frames(g_frame0_url_head) {
+CanvasWidget::CanvasWidget(QWidget *parent) : QWidget(parent),
+                                              current_frame(0),
+                                              frames(g_frame0_url_head) {
     setMinimumSize(frames.getFrame(0).size());
     setMouseTracking(true);
 }
@@ -30,8 +29,8 @@ void CanvasWidget::paintEvent(QPaintEvent *event) {
     // 画布
     painter.drawPixmap(0, 0, frames.getFrame(current_frame));
     // 贝塞尔曲线和手柄描绘
-    curves[current_frame].drawBezierCurve(painter);
-    curves[current_frame].drawReferLine(painter);
+    this->drawBezierCurve(painter);
+    this->drawReferLine(painter);
     QWidget::paintEvent(event);
 }
 
@@ -125,12 +124,12 @@ void CanvasWidget::frameCursorAutoDecrease() {
 
 void CanvasWidget::toggleDirectionLineVisibility() {
     // 切换
-    this->curves[current_frame].setDirectionLineVisibility(!this->curves[current_frame].getDirectionLineVisibility());
+    this->show_direction_line = !this->show_direction_line;
 }
 
 void CanvasWidget::toggleEndPointVisibility() {
     // 切换
-    this->curves[current_frame].setEndPointVisibility(!this->curves[current_frame].getEndPointVisibility());
+    this->show_end_point = !this->show_end_point;
 }
 
 void CanvasWidget::fitBetween(const int idx1, const int idx2) {
@@ -151,4 +150,61 @@ void CanvasWidget::fitBetween(const int idx1, const int idx2) {
 void inline CanvasWidget::reDraw() {
     // 重新按照帧号绘制
     update();
+}
+
+void CanvasWidget::drawReferLine(QPainter &painter) const {
+    auto &control_points = curves[current_frame].getControlPoints();
+    // 绘制手柄线
+    if (this->show_direction_line) {
+        painter.setPen(QPen(QColor(0, 255, 0), 1)); // 绿色
+        for (int i = 0; i < control_points.size(); i += 2) {
+            auto [x0, y0] = control_points[i];
+            auto [x1, y1] = control_points[i + 1];
+            // 跳过空点
+            if (x0 == 0.f && y0 == 0.f) break;
+            painter.drawLine(x0, y0, x1, y1);
+        }
+    }
+    // 绘制手柄线的端点
+    painter.setPen(QPen(QColor(255, 0, 0), 4)); // 加粗的红色
+    for (int i = 0; i < control_points.size(); i += 4) {
+        auto [x0, y0] = control_points[i];
+        auto [x1, y1] = control_points[i + 3];
+        // 绘制第一个点
+        painter.drawPoint(x0, y0);
+        // 检查是否为空点
+        if (x1 == 0.f && y1 == 0.f) break;
+        painter.drawPoint(x1, y1);
+    }
+    // 绘制曲线上的控制点
+    if (this->show_end_point) {
+        painter.setPen(QPen(QColor(0, 255, 0), 4)); // 加粗的绿色
+        for (int i = 0; i < control_points.size(); i += 4) {
+            auto [x0, y0] = control_points[i + 1];
+            auto [x1, y1] = control_points[i + 2];
+            painter.drawPoint(x0, y0);
+            // 跳过空点
+            if (x1 == 0.f && y1 == 0.f) break;
+            painter.drawPoint(x1, y1);
+        }
+    }
+}
+
+void CanvasWidget::drawBezierCurve(QPainter &painter) const {
+    auto &control_points = curves[current_frame].getControlPoints();
+    painter.setPen(QPen(QColor(255, 255, 0), 4)); // 黄色
+    for (int i = 0; i < control_points.size(); i += 4) {
+        auto [x0, y0] = control_points[i];
+        auto [x1, y1] = control_points[i + 1];
+        auto [x2, y2] = control_points[i + 2];
+        auto [x3, y3] = control_points[i + 3];
+        if (x2 == 0.f && y2 == 0.f) break;
+        // 绘制曲线
+        QPainterPath path;
+        path.moveTo(QPointF(x0, y0));
+        path.cubicTo(QPointF(x1, y1),
+                     QPointF(x2, y2),
+                     QPointF(x3, y3));
+        painter.drawPath(path);
+    }
 }

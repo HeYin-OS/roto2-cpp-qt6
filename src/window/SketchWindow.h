@@ -1,6 +1,7 @@
 //
 // Created by 12544 on 25-4-13.
 //
+#pragma once
 
 #include "../macros.h"
 #include "CanvasWidget.h"
@@ -12,10 +13,8 @@ class SketchWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    SketchWindow(QWidget* parent = nullptr);
+    explicit SketchWindow(QWidget* parent = nullptr);
     ~SketchWindow();
-
-protected:
 
 private slots:
     void onFrameLeftButtonClicked();

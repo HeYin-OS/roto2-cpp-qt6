@@ -4,9 +4,9 @@
 
 #include "FrameImageHandler.h"
 
-FrameImgHandler::FrameImgHandler(string url) :
-        frame_url_head(url),
-        frame_num(g_frame_num) {
+FrameImgHandler::FrameImgHandler(const string &url) :
+        frame_num(g_frame_num),
+        frame_url_head(url) {
     // 初始化全部帧
     this->initFrameCache();
     // 初始化最大宽度
@@ -15,12 +15,12 @@ FrameImgHandler::FrameImgHandler(string url) :
     this->height_max = frame_cache[0].height();
 }
 
-string FrameImgHandler::getFrameUrl(int idx) {
+string FrameImgHandler::getFrameUrl(const int idx) const {
     // 定义输出字符串流 宽度为5 填充为0
     ostringstream oss;
     oss << setw(5) << setfill('0') << idx;
     // 输出字符串
-    auto str = oss.str();
+    const auto str = oss.str();
     // 拼接路径字符串
     auto full_url = frame_url_head + str + ".jpg";
     return full_url;
@@ -38,7 +38,7 @@ void FrameImgHandler::initFrameCache() {
     }
 }
 
-QPixmap &FrameImgHandler::getFrame(int idx) {
+QPixmap &FrameImgHandler::getFrame(const int idx) {
     // 返回帧
     return frame_cache[idx];
 }

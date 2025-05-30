@@ -1,6 +1,7 @@
 //
 // Created by 12544 on 25-4-14.
 //
+#pragma once
 #include "../macros.h"
 
 #ifndef ROTO_2_CPP_CURVECONTAINER_H
@@ -45,9 +46,6 @@ public:
 
     // debug
     void printAll() const;
-
-protected:
-
 
 private:
     vector<pair<float, float>> control_points;

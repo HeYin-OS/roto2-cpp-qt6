@@ -43,7 +43,7 @@ void SketchWindow::moveToCenter() {
     // 当前窗口几何位置成员
     auto qr = this->geometry();
     // 获取屏幕的中心点
-    auto cp = this->screen()->availableGeometry().center();
+    const auto cp = this->screen()->availableGeometry().center();
     // 移动至中心点
     qr.moveCenter(cp);
     // 偏左上
@@ -83,7 +83,7 @@ void SketchWindow::onFrameSliderValueChange() {
 
 void SketchWindow::onToFrameOneButtonClicked() {
     // 从滚动条获取值
-    auto frame_num = this->slider.value();
+    const auto frame_num = this->slider.value();
     // 设置值
     this->frame1_label.setText(QString::number(frame_num));
 }
@@ -97,7 +97,7 @@ void SketchWindow::onToFrameTwoButtonClicked() {
 
 void SketchWindow::onDeletePrevClicked() {
     // 退回最近一次绘画操作
-    canvas.curveInsertCursorRewind();
+    canvas.curveInsertRewind();
     // 重画
     canvas.reDraw();
 }
@@ -105,7 +105,7 @@ void SketchWindow::onDeletePrevClicked() {
 void SketchWindow::onClearCanvasButtonClicked() {
     // 重复删除
     while (canvas.getPointNum() > 0) {
-        canvas.curveInsertCursorRewind();
+        canvas.curveInsertRewind();
     }
     // 重画
     canvas.reDraw();
@@ -164,7 +164,7 @@ void SketchWindow::initComponentsAndLayout() {
     // 加入左移按钮
     left_button.setParent(this);
     left_button.setText("◀");
-    left_button.setGeometry((frame_label.x() + frame_label.width()) + 10, frame_label.y(), 30, 30);
+    left_button.setGeometry(frame_label.x() + frame_label.width() + 10, frame_label.y(), 30, 30);
     // 加入滚动条
     slider.setParent(this);
     slider.setOrientation(Qt::Horizontal);

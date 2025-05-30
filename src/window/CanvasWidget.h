@@ -13,34 +13,29 @@
 class CanvasWidget final : public QWidget {
 public:
     explicit CanvasWidget(QWidget *parent = nullptr);
-
-    void curveInsertCursorRewind();
+    // 曲线绘制后退
+    void curveInsertRewind();
+    // 帧号增加
+    void frameCursorAutoIncrease();
+    // 帧号减少
+    void frameCursorAutoDecrease();
+    // 切换手柄线可见度
+    void toggleDirectionLineVisibility();
+    // 切换端点可见度
+    void toggleEndPointVisibility();
+    // 优化操作
+    void fitBetween(int idx1, int idx2);
+    // 重画
+    void inline reDraw();
 
     int getFrameCursor() const;
-
     int getPointNum() const;
-
     void setFrameCursor(int val);
-
-    void frameCursorAutoIncrease();
-
-    void frameCursorAutoDecrease();
-
-    void toggleDirectionLineVisibility();
-
-    void toggleEndPointVisibility();
-
-    void fitBetween(int idx1, int idx2);
-
-    void inline reDraw();
 
 protected:
     void paintEvent(QPaintEvent *event) override;
-
     void mousePressEvent(QMouseEvent *event) override;
-
     void mouseMoveEvent(QMouseEvent *event) override;
-
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
@@ -54,6 +49,13 @@ private:
     array<BezierCurve, g_frame_num> curves;
     // 全部帧
     FrameImgHandler frames;
+    // 显示控制项
+    bool show_direction_line = true;
+    bool show_end_point = true;
+
+    //
+    void drawReferLine(QPainter& painter);
+    void drawBezierCurve(QPainter& painter);
 };
 
 #endif //ROTO_2_CPP_CANVASWIDGET_H

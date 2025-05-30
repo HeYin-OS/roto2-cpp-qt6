@@ -13,7 +13,6 @@ void BezierCurve::addStartEndPoint(const QPoint &point, const int index) {
     if (index == 0) return;
     // the end point of the last curve
     control_points[index * 4 - 1] = {point.x(), point.y()};
-    return;
 }
 
 void BezierCurve::addControlPoint(const QPoint &point, const int index, const int x_max, const int y_max) {
@@ -33,7 +32,6 @@ void BezierCurve::addControlPoint(const QPoint &point, const int index, const in
     if (control_x < 0 || control_y < 0 || control_x > x_max || control_y > y_max) return;
     // update the second control point of the last curve
     control_points[index * 4 - 2] = {control_x, control_y};
-    return;
 }
 
 void BezierCurve::drawBezierCurve(QPainter &painter) {
@@ -54,7 +52,6 @@ void BezierCurve::drawBezierCurve(QPainter &painter) {
                      QPointF(x3, y3));
         painter.drawPath(path);
     }
-    return;
 }
 
 void BezierCurve::drawReferLine(QPainter &painter) {

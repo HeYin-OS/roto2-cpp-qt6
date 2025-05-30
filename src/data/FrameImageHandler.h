@@ -10,9 +10,9 @@ using namespace std;
 
 class FrameImgHandler {
 public:
-    FrameImgHandler(string url);
+    FrameImgHandler(const string &url);
 
-    string getFrameUrl(int idx);
+    string getFrameUrl(int idx) const;
 
     int getFrameNum() const;
 

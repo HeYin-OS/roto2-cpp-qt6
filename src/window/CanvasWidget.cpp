@@ -6,14 +6,13 @@
 
 CanvasWidget::CanvasWidget(QWidget *parent) :
         QWidget(parent),
-        isMousePressing(false),
         current_frame(0),
         frames(g_frame0_url_head) {
     setMinimumSize(frames.getFrame(0).size());
     setMouseTracking(true);
 }
 
-void CanvasWidget::curveInsertCursorRewind() {
+void CanvasWidget::curveInsertRewind() {
     // 通过插入序号删除
     curves[current_frame].deleteFromLast();
     // 测试

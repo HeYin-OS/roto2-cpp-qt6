@@ -4,7 +4,7 @@
 
 #include "CurveUtils.h"
 
-void BezierCurve::addStartEndPoint(QPoint &point, int index) {
+void BezierCurve::addStartEndPoint(const QPoint &point, const int index) {
     // allocate room for 4 points
     for (int i = 0; i < 4; ++i) control_points.push_back({0, 0});
     // the start point of the current curve
@@ -16,7 +16,7 @@ void BezierCurve::addStartEndPoint(QPoint &point, int index) {
     return;
 }
 
-void BezierCurve::addControlPoint(QPoint &point, int index, int x_max, int y_max) {
+void BezierCurve::addControlPoint(const QPoint &point, const int index, const int x_max, const int y_max) {
     // first control point of the current curve
     auto x = point.x();
     auto y = point.y();
@@ -97,7 +97,7 @@ void BezierCurve::drawReferLine(QPainter &painter) {
 
 }
 
-pair<float, float> BezierCurve::getPoint(int curve_index, int point_index) const {
+pair<float, float> BezierCurve::getPoint(int curve_index, const int point_index) const {
     return control_points[curve_index * 4 + point_index];
 }
 
@@ -139,11 +139,11 @@ void BezierCurve::cloneControlPoints(const BezierCurve &source){
     this->control_points = source.control_points;
 }
 
-void BezierCurve::setDirectionLineVisibility(bool val) {
+void BezierCurve::setDirectionLineVisibility(const bool val) {
     show_direction_line = val;
 }
 
-void BezierCurve::setEndPointVisibility(bool val) {
+void BezierCurve::setEndPointVisibility(const bool val) {
     show_end_point = val;
 }
 

@@ -1,6 +1,7 @@
 //
 // Created by 12544 on 25-4-14.
 //
+#pragma once
 
 #include "../data/CurveUtils.h"
 #include "../data/FrameImageHandler.h"
@@ -9,9 +10,9 @@
 #ifndef ROTO_2_CPP_CANVASWIDGET_H
 #define ROTO_2_CPP_CANVASWIDGET_H
 
-class CanvasWidget : public QWidget {
+class CanvasWidget final : public QWidget {
 public:
-    CanvasWidget(QWidget *parent = nullptr);
+    explicit CanvasWidget(QWidget *parent = nullptr);
 
     void curveInsertCursorRewind();
 
@@ -43,12 +44,16 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
+    // 鼠标按压判断
     bool isMousePressing = false;
+    // 当前帧的插入序号
     array<int, g_frame_num> current_insert_idx{};
+    // 当前的帧号
     int current_frame;
-
+    // 全部曲线
     array<BezierCurve, g_frame_num> curves;
-    FrameImgHandler frameHandler;
+    // 全部帧
+    FrameImgHandler frames;
 };
 
 #endif //ROTO_2_CPP_CANVASWIDGET_H

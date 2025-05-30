@@ -11,9 +11,9 @@ using namespace std;
 class BezierCurve {
 public:
     // point addition
-    void addStartEndPoint(QPoint& point, int index);
+    void addStartEndPoint(const QPoint& point, int index);
 
-    void addControlPoint(QPoint& point, int index, int x_max, int y_max);
+    void addControlPoint(const QPoint& point, int index, int x_max, int y_max);
 
     // drawer function
     void drawReferLine(QPainter& painter);

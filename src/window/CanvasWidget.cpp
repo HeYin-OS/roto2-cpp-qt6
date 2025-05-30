@@ -8,8 +8,8 @@ CanvasWidget::CanvasWidget(QWidget *parent) :
         QWidget(parent),
         isMousePressing(false),
         current_frame(0),
-        frameHandler(g_frame0_url_head) {
-    setMinimumSize(frameHandler.getFrame(0).size());
+        frames(g_frame0_url_head) {
+    setMinimumSize(frames.getFrame(0).size());
     setMouseTracking(true);
 }
 
@@ -29,7 +29,7 @@ void CanvasWidget::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::RenderHint::Antialiasing);
     // 画布
-    painter.drawPixmap(0, 0, frameHandler.getFrame(current_frame));
+    painter.drawPixmap(0, 0, frames.getFrame(current_frame));
     // 贝塞尔曲线和手柄描绘
     curves[current_frame].drawBezierCurve(painter);
     curves[current_frame].drawReferLine(painter);
@@ -40,10 +40,10 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
     // 鼠标按压
     isMousePressing = true;
     // 采集点
-    auto p = event->position().toPoint();
+    const auto p = event->position().toPoint();
     // 鼠标活动范围
-    auto max_width = frameHandler.getMaxWidth();
-    auto max_height = frameHandler.getMaxHeight();
+    const auto max_width = frames.getMaxWidth();
+    const auto max_height = frames.getMaxHeight();
     if (p.x() < 0 || p.y() < 0 || p.x() > max_width || p.y() > max_height) return;
     // 加入至管理容器
     curves[current_frame].addStartEndPoint(p, current_insert_idx[current_frame]);
@@ -56,10 +56,10 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
 
 void CanvasWidget::mouseMoveEvent(QMouseEvent *event) {
     // 采集点
-    auto p = event->position().toPoint();
+    const auto p = event->position().toPoint();
     // 鼠标活动范围
-    auto max_width = frameHandler.getMaxWidth();
-    auto max_height = frameHandler.getMaxHeight();
+    const auto max_width = frames.getMaxWidth();
+    const auto max_height = frames.getMaxHeight();
     if (p.x() < 0 || p.y() < 0 || p.x() > max_width || p.y() > max_height) return;
     // 仅按压时加入容器
     if (isMousePressing) {
@@ -93,12 +93,12 @@ int CanvasWidget::getPointNum() const {
     return curves[current_frame].getPointCount();
 }
 
-void CanvasWidget::setFrameCursor(int val) {
+void CanvasWidget::setFrameCursor(const int val) {
     // 设置值
     this->current_frame = val;
     // 防止越界
-    if (this->current_frame >= frameHandler.getFrameNum()) {
-        this->current_frame = frameHandler.getFrameNum() - 1;
+    if (this->current_frame >= frames.getFrameNum()) {
+        this->current_frame = frames.getFrameNum() - 1;
     }
     // 防止越界
     if (this->current_frame < 0) {
@@ -110,8 +110,8 @@ void CanvasWidget::frameCursorAutoIncrease() {
     // 往后移动帧
     this->current_frame++;
     // 防止越界
-    if (this->current_frame >= frameHandler.getFrameNum()) {
-        this->current_frame = frameHandler.getFrameNum() - 1;
+    if (this->current_frame >= frames.getFrameNum()) {
+        this->current_frame = frames.getFrameNum() - 1;
     }
 }
 
@@ -134,7 +134,7 @@ void CanvasWidget::toggleEndPointVisibility() {
     this->curves[current_frame].setEndPointVisibility(!this->curves[current_frame].getEndPointVisibility());
 }
 
-void CanvasWidget::fitBetween(int idx1, int idx2) {
+void CanvasWidget::fitBetween(const int idx1, const int idx2) {
     // 拷贝全部曲线到全部帧
     for (auto i = idx1 + 1; i <= idx2; ++i) {
         this->curves[i].cloneControlPoints(this->curves[idx1]);

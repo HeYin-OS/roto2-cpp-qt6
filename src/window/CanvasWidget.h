@@ -31,6 +31,8 @@ public:
     int getFrameCursor() const;
     int getPointNum() const;
     void setFrameCursor(int val);
+    void switchToInsert();
+    void switchToMove();
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -53,6 +55,8 @@ private:
     bool show_direction_line = true;
     // 显示曲线上的控制点
     bool show_end_point = true;
+    // 插入和移动的切换
+    bool is_insert = true;
 
 
     // 绘制手柄参考线

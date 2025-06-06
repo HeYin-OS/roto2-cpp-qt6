@@ -11,6 +11,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <cmath>
 
 #include <QMainWindow>
 #include <QWidget>

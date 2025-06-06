@@ -15,7 +15,7 @@ void CanvasWidget::curveInsertRewind() {
     // 通过插入序号删除
     curves[current_frame].deleteFromLast();
     // 测试
-    curves[current_frame].printAll();
+    //curves[current_frame].printAll();
     // 插入序号后退
     current_insert_idx[current_frame]--;
     // 防止越界
@@ -39,13 +39,19 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
     isMousePressing = true;
     // 采集点
     const auto p = event->position().toPoint();
-    // 鼠标活动范围
+    // 保证鼠标活动范围
     const auto max_width = frames.getMaxWidth();
     const auto max_height = frames.getMaxHeight();
     if (p.x() < 0 || p.y() < 0 || p.x() > max_width || p.y() > max_height) return;
-    // 加入至管理容器
-    curves[current_frame].addStartEndPoint(p, current_insert_idx[current_frame]);
-    curves[current_frame].addControlPoint(p, current_insert_idx[current_frame], max_width, max_height);
+    if (is_insert) {
+        //qDebug() << "current idx: " << current_insert_idx[current_frame];
+        // 加入至管理容器
+        curves[current_frame].addStartEndPoint(p, current_insert_idx[current_frame]);
+        curves[current_frame].addControlPoint(p, current_insert_idx[current_frame], max_width, max_height);
+    } else {
+        // 移动控制点
+        curves[current_frame].moveTo(p);
+    }
     // 重画
     this->reDraw();
     // 其余工作
@@ -55,13 +61,19 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
 void CanvasWidget::mouseMoveEvent(QMouseEvent *event) {
     // 采集点
     const auto p = event->position().toPoint();
-    // 鼠标活动范围
+    // 保证鼠标活动范围
     const auto max_width = frames.getMaxWidth();
     const auto max_height = frames.getMaxHeight();
     if (p.x() < 0 || p.y() < 0 || p.x() > max_width || p.y() > max_height) return;
-    // 仅按压时加入容器
+    // 仅按压时
     if (isMousePressing) {
-        curves[current_frame].addControlPoint(p, current_insert_idx[current_frame], max_width, max_height);
+        if (is_insert) {
+            // 加入至管理容器
+            curves[current_frame].addControlPoint(p, current_insert_idx[current_frame], max_width, max_height);
+        } else {
+            // 移动控制点
+            curves[current_frame].moveTo(p);
+        }
     }
     // 重画
     this->reDraw();
@@ -73,9 +85,9 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
     // 鼠标释放
     isMousePressing = false;
     // 曲线指示游标后移
-    current_insert_idx[current_frame]++;
+    if (is_insert) { current_insert_idx[current_frame]++; }
     // 测试
-    curves[current_frame].printAll();
+    //curves[current_frame].printAll();
     // 重画
     this->reDraw();
     // 其余工作
@@ -102,6 +114,14 @@ void CanvasWidget::setFrameCursor(const int val) {
     if (this->current_frame < 0) {
         this->current_frame = 0;
     }
+}
+
+void CanvasWidget::switchToInsert() {
+    this->is_insert = true;
+}
+
+void CanvasWidget::switchToMove() {
+    this->is_insert = false;
 }
 
 void CanvasWidget::frameCursorAutoIncrease() {

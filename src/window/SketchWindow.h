@@ -22,6 +22,8 @@ private slots:
     void onFrameSliderValueChange();
     void onToFrameOneButtonClicked();
     void onToFrameTwoButtonClicked();
+    void onSwitchToInsertClicked();
+    void onSwitchToMoveClicked();
     void onDeletePrevClicked();
     void onClearCanvasButtonClicked();
     void onToggleDirLineButtonClicked();
@@ -41,6 +43,8 @@ private:
     QPushButton to_frame2_button; //转移2按钮
     // 绘画功能控制区
     QGroupBox draw_box;
+    QPushButton insert_button;
+    QPushButton move_button;
     QPushButton delete_prev_button; //删除最近绘画点
     QPushButton canvas_clear_button; //清除当前画布
     // 显示功能控制区

@@ -3,9 +3,8 @@
 //
 #include "SketchWindow.h"
 
-SketchWindow::SketchWindow(QWidget *parent) :
-        QMainWindow(parent),
-        canvas(this) {
+SketchWindow::SketchWindow(QWidget *parent) : QMainWindow(parent),
+                                              canvas(this) {
     // 初始化窗口控件和各种布局调整
     this->initComponentsAndLayout();
     // 初始化信号和槽
@@ -14,7 +13,8 @@ SketchWindow::SketchWindow(QWidget *parent) :
     setMouseTracking(true);
 }
 
-SketchWindow::~SketchWindow() {}
+SketchWindow::~SketchWindow() {
+}
 
 void SketchWindow::initSignalAndSlots() {
     // 帧前进键的点击事件
@@ -27,6 +27,10 @@ void SketchWindow::initSignalAndSlots() {
     connect(&to_frame1_button, &QPushButton::clicked, this, &SketchWindow::onToFrameOneButtonClicked);
     // 帧2按钮的点击事件
     connect(&to_frame2_button, &QPushButton::clicked, this, &SketchWindow::onToFrameTwoButtonClicked);
+    // 切换到插入模式事件
+    connect(&insert_button, &QPushButton::clicked, this, &SketchWindow::onSwitchToInsertClicked);
+    // 切换到移动模式事件
+    connect(&move_button, &QPushButton::clicked, this, &SketchWindow::onSwitchToMoveClicked);
     // 删除最近按钮的点击事件
     connect(&delete_prev_button, &QPushButton::clicked, this, &SketchWindow::onDeletePrevClicked);
     // 删除当前画布按钮的点击事件
@@ -90,9 +94,25 @@ void SketchWindow::onToFrameOneButtonClicked() {
 
 void SketchWindow::onToFrameTwoButtonClicked() {
     // 从滚动条获取值
-    auto frame_num = this->slider.value();
+    const auto frame_num = this->slider.value();
     // 设置值
     this->frame2_label.setText(QString::number(frame_num));
+}
+
+void SketchWindow::onSwitchToInsertClicked() {
+    // 改变鼠标控制方式为插入
+    this->canvas.switchToInsert();
+    // 更改按钮文字
+    this->insert_button.setText("Insert (ON)");
+    this->move_button.setText("Move (OFF)");
+}
+
+void SketchWindow::onSwitchToMoveClicked() {
+    // 改变鼠标控制方式为移动
+    this->canvas.switchToMove();
+    // 更改按钮文字
+    this->insert_button.setText("Insert (OFF)");
+    this->move_button.setText("Move (ON)");
 }
 
 void SketchWindow::onDeletePrevClicked() {
@@ -127,8 +147,8 @@ void SketchWindow::onToggleEndPointButtonClicked() {
 
 void SketchWindow::onFitButtonClicked() {
     // 当之间没有帧时无法计算
-    auto frame1_num = this->frame1_label.text().toInt();
-    auto frame2_num = this->frame2_label.text().toInt();
+    const auto frame1_num = this->frame1_label.text().toInt();
+    const auto frame2_num = this->frame2_label.text().toInt();
     if (frame2_num - frame1_num < 2) return;
     // 拟合
     canvas.fitBetween(frame1_num - 1, frame2_num - 1);
@@ -140,15 +160,15 @@ void SketchWindow::initComponentsAndLayout() {
     // 窗体名
     this->setWindowTitle("Sketching Board");
     // 由于工具栏扩展窗体尺寸
-    int tool_expansion_space = 250;
-    QPixmap test_image((g_frame0_url_head + "00000.jpg").c_str());
+    const int tool_expansion_space = 250;
+    const QPixmap test_image((g_frame0_url_head + "00000.jpg").c_str());
     this->setFixedSize(test_image.width() + tool_expansion_space, test_image.height());
     // 窗体移动至屏幕中央
     this->moveToCenter();
     // 总体布局
     // QHBoxLayout *layout = new QHBoxLayout(this->centralWidget());
-//    layout->setContentsMargins(0, 0, 0, 0);
-//    layout->setSpacing(0);
+    //    layout->setContentsMargins(0, 0, 0, 0);
+    //    layout->setSpacing(0);
     // 加入绘画控件
     canvas.setGeometry(0, 0, test_image.width(), test_image.height());
     //
@@ -189,11 +209,19 @@ void SketchWindow::initComponentsAndLayout() {
     //
     draw_box.setParent(this);
     draw_box.setTitle("Edit");
-    draw_box.setGeometry(frame_box.x(), frame_box.y() + frame_box.height() + 10, 230, 60);
+    draw_box.setGeometry(frame_box.x(), frame_box.y() + frame_box.height() + 10, 230, 100);
+    // 加入添加点按钮
+    insert_button.setParent(this);
+    insert_button.setText("Add (ON)");
+    insert_button.setGeometry(draw_box.x() + 10, draw_box.y() + 20, 100, 30);
+    // 加入移动点按钮
+    move_button.setParent(this);
+    move_button.setText("Move (OFF)");
+    move_button.setGeometry(insert_button.x() + insert_button.width() + 10, insert_button.y(), 100, 30);
     // 加入删除最近点组合按钮
     delete_prev_button.setParent(this);
     delete_prev_button.setText("Delete Latest");
-    delete_prev_button.setGeometry(draw_box.x() + 10, draw_box.y() + 20, 100, 30);
+    delete_prev_button.setGeometry(insert_button.x(), insert_button.y() + insert_button.height() + 10, 100, 30);
     // 加入清楚当前帧全部笔迹按钮
     canvas_clear_button.setParent(this);
     canvas_clear_button.setText("Clear Canvas");
@@ -217,16 +245,16 @@ void SketchWindow::initComponentsAndLayout() {
     //
     opt_box.setParent(this);
     opt_box.setTitle("Optimize");
-    opt_box.setStyleSheet( "QGroupBox {"
-                           "    color: green;"
-                           "    border: 1px solid green;"
-                           "    margin-top: 1.5ex;"
-                           "}"
-                           "QGroupBox::title {"
-                           "    subcontrol-origin: margin;"
-                           "    left: 7px;"
-                           "}"
-                          );
+    opt_box.setStyleSheet("QGroupBox {"
+        "    color: green;"
+        "    border: 1px solid green;"
+        "    margin-top: 1.5ex;"
+        "}"
+        "QGroupBox::title {"
+        "    subcontrol-origin: margin;"
+        "    left: 7px;"
+        "}"
+    );
     opt_box.setGeometry(show_box.x(), show_box.y() + show_box.height() + 10, 230, 60);
     // 加入拟合按钮
     fit_button.setParent(this);

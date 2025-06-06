@@ -16,10 +16,8 @@ public:
 
     void addControlPoint(const QPoint& point, int index, int x_max, int y_max);
 
-    // moving function
-    void moveAnchorPoint(QPoint& point);
-
-    void moveControlPoint(QPoint& point);
+    // move function
+    void moveTo(const QPoint& point);
 
     // delete function
     void deleteFromLast();
@@ -30,13 +28,6 @@ public:
     // clone
     void cloneControlPoints(const BezierCurve& source);
 
-    // setters
-    void setDirectionLineVisibility(bool val);
-    void setEndPointVisibility(bool val);
-
-    // getters
-    bool getDirectionLineVisibility() const;
-    bool getEndPointVisibility() const;
     int getPointCount() const;
     const vector<pair<float, float>>& getControlPoints() const;
 

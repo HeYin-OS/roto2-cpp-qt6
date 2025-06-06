@@ -34,7 +34,23 @@ void BezierCurve::addControlPoint(const QPoint &point, const int index, const in
     control_points[index * 4 - 2] = {control_x, control_y};
 }
 
-pair<float, float> BezierCurve::getPoint(int curve_index, const int point_index) const {
+void BezierCurve::moveTo(const QPoint &point) {
+    double min_distance = 999999.f;
+    size_t min_idx = 0;
+    for (size_t i = 0; i < control_points.size(); ++i) {
+        auto [x, y] = control_points[i];
+        // avoid empty points
+        if (x == 0.f && y == 0.f) break;
+        double dist = sqrt(pow(x - point.x(), 2) + pow(y - point.y(), 2));
+        if (dist < min_distance) {
+            min_distance = dist;
+            min_idx = i;
+        }
+    }
+    control_points[min_idx] = {point.x(), point.y()};
+}
+
+pair<float, float> BezierCurve::getPoint(const int curve_index, const int point_index) const {
     return control_points[curve_index * 4 + point_index];
 }
 
@@ -45,12 +61,6 @@ void BezierCurve::printAll() const {
         ++i;
     }
     qDebug() << "------------------------";
-}
-
-void BezierCurve::moveAnchorPoint(QPoint &point) {
-}
-
-void BezierCurve::moveControlPoint(QPoint &point) {
 }
 
 void BezierCurve::deleteFromLast() {

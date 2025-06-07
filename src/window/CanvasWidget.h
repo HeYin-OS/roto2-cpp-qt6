@@ -15,6 +15,8 @@ public:
     explicit CanvasWidget(QWidget *parent = nullptr);
     // 曲线绘制后退
     void curveInsertRewind();
+    // 清空全部绘画笔迹
+    void clearAllCurves();
     // 帧号增加
     void frameCursorAutoIncrease();
     // 帧号减少

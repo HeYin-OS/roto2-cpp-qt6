@@ -26,6 +26,7 @@ private slots:
     void onSwitchToMoveClicked();
     void onDeletePrevClicked();
     void onClearCanvasButtonClicked();
+    void onClearAllCanvasButtonClicked();
     void onToggleDirLineButtonClicked();
     void onToggleEndPointButtonClicked();
     void onFitButtonClicked();
@@ -43,10 +44,11 @@ private:
     QPushButton to_frame2_button; //转移2按钮
     // 绘画功能控制区
     QGroupBox draw_box;
-    QPushButton insert_button;
-    QPushButton move_button;
+    QPushButton insert_button; //插入模式
+    QPushButton move_button; //移动模式
     QPushButton delete_prev_button; //删除最近绘画点
-    QPushButton canvas_clear_button; //清除当前画布
+    QPushButton canvas_clear_button; //清除当前画布的曲线
+    QPushButton all_canvas_clear_button; //清除所有画布的曲线
     // 显示功能控制区
     QGroupBox show_box;
     QPushButton toggle_dir_line_button; //切换辅助线按钮

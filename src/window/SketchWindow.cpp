@@ -35,6 +35,8 @@ void SketchWindow::initSignalAndSlots() {
     connect(&delete_prev_button, &QPushButton::clicked, this, &SketchWindow::onDeletePrevClicked);
     // 删除当前画布按钮的点击事件
     connect(&canvas_clear_button, &QPushButton::clicked, this, &SketchWindow::onClearCanvasButtonClicked);
+    // 删除所有画布按钮的点击事件
+    connect(&all_canvas_clear_button, &QPushButton::clicked, this,&SketchWindow::onClearAllCanvasButtonClicked);
     // 切换水平线可见度按钮的点击事件
     connect(&toggle_dir_line_button, &QPushButton::clicked, this, &SketchWindow::onToggleDirLineButtonClicked);
     // 切换终点可见度按钮的点击事件
@@ -107,7 +109,6 @@ void SketchWindow::onSwitchToInsertClicked() {
     this->move_button.setText("Move (OFF)");
     // 重画
     canvas.reDraw();
-
 }
 
 void SketchWindow::onSwitchToMoveClicked() {
@@ -132,6 +133,13 @@ void SketchWindow::onClearCanvasButtonClicked() {
     while (canvas.getPointNum() > 0) {
         canvas.curveInsertRewind();
     }
+    // 重画
+    canvas.reDraw();
+}
+
+void SketchWindow::onClearAllCanvasButtonClicked() {
+    // 清除全部曲线
+    canvas.clearAllCurves();
     // 重画
     canvas.reDraw();
 }
@@ -214,7 +222,7 @@ void SketchWindow::initComponentsAndLayout() {
     //
     draw_box.setParent(this);
     draw_box.setTitle("Edit");
-    draw_box.setGeometry(frame_box.x(), frame_box.y() + frame_box.height() + 10, 230, 100);
+    draw_box.setGeometry(frame_box.x(), frame_box.y() + frame_box.height() + 10, 230, 140);
     // 加入添加点按钮
     insert_button.setParent(this);
     insert_button.setText("Add (ON)");
@@ -227,10 +235,14 @@ void SketchWindow::initComponentsAndLayout() {
     delete_prev_button.setParent(this);
     delete_prev_button.setText("Delete Latest");
     delete_prev_button.setGeometry(insert_button.x(), insert_button.y() + insert_button.height() + 10, 100, 30);
-    // 加入清楚当前帧全部笔迹按钮
+    // 加入删除当前帧全部笔迹按钮
     canvas_clear_button.setParent(this);
     canvas_clear_button.setText("Clear Canvas");
     canvas_clear_button.setGeometry(delete_prev_button.x() + delete_prev_button.width() + 10, delete_prev_button.y(), 100, 30);
+    // 加入清除全部笔迹按钮
+    all_canvas_clear_button.setParent(this);
+    all_canvas_clear_button.setText("Clear All Canvases");
+    all_canvas_clear_button.setGeometry(delete_prev_button.x(), delete_prev_button.y() + delete_prev_button.height() + 10, 150, 30);
     //
     // 显示功能区
     //

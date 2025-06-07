@@ -22,6 +22,17 @@ void CanvasWidget::curveInsertRewind() {
     if (current_insert_idx[current_frame] < 0) current_insert_idx[current_frame] = 0;
 }
 
+void CanvasWidget::clearAllCurves() {
+    const auto frame_idx_backup = this->current_frame;
+    for (int i = 0; i < current_insert_idx.size(); i++) {
+        this->current_frame = i;
+        while (this->getPointNum() > 0) {
+            this->curveInsertRewind();
+        }
+    }
+    this->current_frame = frame_idx_backup;
+}
+
 void CanvasWidget::paintEvent(QPaintEvent *event) {
     // 设置画笔
     QPainter painter(this);

@@ -37,17 +37,26 @@ void BezierCurve::addControlPoint(const QPoint &point, const int index, const in
 void BezierCurve::moveTo(const QPoint &point) {
     double min_distance = 999999.f;
     size_t min_idx = 0;
-    for (size_t i = 0; i < control_points.size(); ++i) {
+    // find the closest point (-3 means that skip last 2 empty points and the last control point)
+    for (size_t i = 0; i < control_points.size() - 3; ++i) {
         auto [x, y] = control_points[i];
         // avoid empty points
         if (x == 0.f && y == 0.f) break;
+        // compute distance
         double dist = sqrt(pow(x - point.x(), 2) + pow(y - point.y(), 2));
         if (dist < min_distance) {
             min_distance = dist;
             min_idx = i;
         }
     }
+    // handle joint points movement
     control_points[min_idx] = {point.x(), point.y()};
+    if (min_idx % 4 == 0 && min_idx != 0) {
+        control_points[min_idx - 1] = {point.x(), point.y()};
+    }
+    if (min_idx % 4 == 3) {
+        control_points[min_idx + 1] = {point.x(), point.y()};
+    }
 }
 
 pair<float, float> BezierCurve::getPoint(const int curve_index, const int point_index) const {

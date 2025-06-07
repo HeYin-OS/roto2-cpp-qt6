@@ -60,9 +60,9 @@ void SketchWindow::onFrameLeftButtonClicked() {
     // 重画
     canvas.reDraw();
     // 变更帧号显示
-    this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
+    this->frame_label.setText(QString::number(canvas.getCurrentFrameIdx() + 1));
     // 更改滑块位置
-    this->slider.setValue(canvas.getFrameCursor() + 1);
+    this->slider.setValue(canvas.getCurrentFrameIdx() + 1);
 }
 
 void SketchWindow::onFrameRightButtonClicked() {
@@ -71,9 +71,9 @@ void SketchWindow::onFrameRightButtonClicked() {
     // 重画
     canvas.reDraw();
     // 变更帧号显示
-    this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
+    this->frame_label.setText(QString::number(canvas.getCurrentFrameIdx() + 1));
     // 更改滑块位置
-    this->slider.setValue(canvas.getFrameCursor() + 1);
+    this->slider.setValue(canvas.getCurrentFrameIdx() + 1);
 }
 
 void SketchWindow::onFrameSliderValueChange() {
@@ -82,7 +82,7 @@ void SketchWindow::onFrameSliderValueChange() {
     // 重画
     canvas.reDraw();
     // 变更帧号显示
-    this->frame_label.setText(QString::number(canvas.getFrameCursor() + 1));
+    this->frame_label.setText(QString::number(canvas.getCurrentFrameIdx() + 1));
 }
 
 void SketchWindow::onToFrameOneButtonClicked() {
@@ -105,6 +105,9 @@ void SketchWindow::onSwitchToInsertClicked() {
     // 更改按钮文字
     this->insert_button.setText("Insert (ON)");
     this->move_button.setText("Move (OFF)");
+    // 重画
+    canvas.reDraw();
+
 }
 
 void SketchWindow::onSwitchToMoveClicked() {
@@ -113,6 +116,8 @@ void SketchWindow::onSwitchToMoveClicked() {
     // 更改按钮文字
     this->insert_button.setText("Insert (OFF)");
     this->move_button.setText("Move (ON)");
+    // 重画
+    canvas.reDraw();
 }
 
 void SketchWindow::onDeletePrevClicked() {

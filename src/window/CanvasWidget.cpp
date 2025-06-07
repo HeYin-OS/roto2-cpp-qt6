@@ -15,7 +15,7 @@ void CanvasWidget::curveInsertRewind() {
     // 通过插入序号删除
     curves[current_frame].deleteFromLast();
     // 测试
-    //curves[current_frame].printAll();
+    curves[current_frame].printAll();
     // 插入序号后退
     current_insert_idx[current_frame]--;
     // 防止越界
@@ -87,14 +87,14 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *event) {
     // 曲线指示游标后移
     if (is_insert) { current_insert_idx[current_frame]++; }
     // 测试
-    //curves[current_frame].printAll();
+    curves[current_frame].printAll();
     // 重画
     this->reDraw();
     // 其余工作
     QWidget::mouseReleaseEvent(event);
 }
 
-int CanvasWidget::getFrameCursor() const {
+int CanvasWidget::getCurrentFrameIdx() const {
     // 返回当前帧号
     return this->current_frame;
 }
@@ -176,7 +176,7 @@ void inline CanvasWidget::reDraw() {
 void CanvasWidget::drawReferLine(QPainter &painter) const {
     auto &control_points = curves[current_frame].getControlPoints();
     // 绘制手柄线
-    if (this->show_direction_line) {
+    if (this->show_direction_line && this->is_insert) {
         painter.setPen(QPen(QColor(0, 255, 0), 1)); // 绿色
         for (int i = 0; i < control_points.size(); i += 2) {
             auto [x0, y0] = control_points[i];
@@ -203,8 +203,10 @@ void CanvasWidget::drawReferLine(QPainter &painter) const {
         for (int i = 0; i < control_points.size(); i += 4) {
             auto [x0, y0] = control_points[i + 1];
             auto [x1, y1] = control_points[i + 2];
+            // 如果是移动模式则不显示最后一个控制点
+            if (!this->is_insert && i + 1 == control_points.size() - 3) break;
             painter.drawPoint(x0, y0);
-            // 跳过空点
+            // 跳过最后两个空点
             if (x1 == 0.f && y1 == 0.f) break;
             painter.drawPoint(x1, y1);
         }

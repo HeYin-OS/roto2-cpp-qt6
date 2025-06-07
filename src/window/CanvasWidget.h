@@ -28,7 +28,7 @@ public:
     // 重画
     void inline reDraw();
 
-    int getFrameCursor() const;
+    int getCurrentFrameIdx() const;
     int getPointNum() const;
     void setFrameCursor(int val);
     void switchToInsert();

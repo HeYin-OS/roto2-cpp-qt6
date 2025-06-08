@@ -99,6 +99,10 @@ void SketchWindow::onToFrameTwoButtonClicked() {
     const auto frame_num = this->slider.value();
     // 设置值
     this->frame2_label.setText(QString::number(frame_num));
+    // 拷贝贝塞尔曲线到帧2
+    this->canvas.copyCurve(this->frame1_label.text().toInt() - 1, this->frame2_label.text().toInt() - 1);
+    // 重画
+    canvas.reDraw();
 }
 
 void SketchWindow::onSwitchToInsertClicked() {

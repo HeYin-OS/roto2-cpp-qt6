@@ -25,8 +25,10 @@ public:
     void toggleDirectionLineVisibility();
     // 切换端点可见度
     void toggleEndPointVisibility();
+    // 拷贝曲线
+    void copyCurve(const int idx_src, const int idx_dist);
     // 优化操作
-    void fitBetween(int idx1, int idx2);
+    void fitBetween(const int idx1, const int idx2);
     // 重画
     void inline reDraw();
 
@@ -49,7 +51,7 @@ private:
     array<int, g_frame_num> current_insert_idx{};
     // 当前的帧号
     int current_frame;
-    // 全部曲线
+    // 贝塞尔曲线
     array<BezierCurve, g_frame_num> curves;
     // 全部帧
     FrameImgHandler frames;

@@ -4,6 +4,8 @@
 
 #include "CanvasWidget.h"
 
+#include "../utils/utils.h"
+
 CanvasWidget::CanvasWidget(QWidget *parent) : QWidget(parent),
                                               current_frame(0),
                                               frames(g_frame0_url_head) {
@@ -163,12 +165,16 @@ void CanvasWidget::toggleEndPointVisibility() {
     this->show_end_point = !this->show_end_point;
 }
 
+void CanvasWidget::copyCurve(const int idx_src, const int idx_dist) {
+    this->curves[idx_dist].cloneControlPoints(this->curves[idx_src]);
+    this->current_insert_idx[idx_dist] = this->curves[idx_dist].getPointCount();
+}
+
 void CanvasWidget::fitBetween(const int idx1, const int idx2) {
-    // 拷贝全部曲线到全部帧并且拷贝插入位置
-    for (auto i = idx1 + 1; i <= idx2; ++i) {
-        this->curves[i].cloneControlPoints(this->curves[idx1]);
-        this->current_insert_idx[i] = this->curves[idx1].getPointCount();
-    }
+    using namespace roto_util;
+    if (idx2 - idx1 < 2) return;
+    // 线性插值
+    bezier_curve_linear_interpolation(this->curves.begin(), this->curves.end(), idx1, idx2);
     // 获得采样点的位置
 
     // 计算能量

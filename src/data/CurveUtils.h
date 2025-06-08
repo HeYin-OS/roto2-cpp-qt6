@@ -24,12 +24,18 @@ public:
 
     // point access
     pair<float, float> getPoint(int curve_index, int point_index) const;
+    pair<float, float>& operator[](const int index);
+    const pair<float, float>& operator[](const int index) const;
 
     // clone
     void cloneControlPoints(const BezierCurve& source);
 
     int getPointCount() const;
     const vector<pair<float, float>>& getControlPoints() const;
+
+    // resize
+
+    void resizeControlPoints(const int num);
 
     // debug
     void printAll() const;

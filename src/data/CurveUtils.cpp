@@ -63,6 +63,15 @@ pair<float, float> BezierCurve::getPoint(const int curve_index, const int point_
     return control_points[curve_index * 4 + point_index];
 }
 
+pair<float, float> &BezierCurve::operator[](const int index) {
+    return this->control_points[index];
+}
+
+const pair<float, float> &BezierCurve::operator[](const int index) const {
+    return this->control_points[index];
+}
+
+
 void BezierCurve::printAll() const {
     int i = 0;
     for (auto &p: control_points) {
@@ -90,6 +99,10 @@ int BezierCurve::getPointCount() const {
 
 const vector<pair<float, float> > &BezierCurve::getControlPoints() const {
     return control_points;
+}
+
+void BezierCurve::resizeControlPoints(const int num) {
+    this->control_points.resize(num);
 }
 
 void BezierCurve::cloneControlPoints(const BezierCurve &source) {

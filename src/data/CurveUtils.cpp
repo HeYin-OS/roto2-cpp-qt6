@@ -59,15 +59,15 @@ void BezierCurve::moveTo(const QPoint &point) {
     }
 }
 
-pair<float, float> BezierCurve::getPoint(const int curve_index, const int point_index) const {
+pair<double, double> BezierCurve::getPoint(const int curve_index, const int point_index) const {
     return control_points[curve_index * 4 + point_index];
 }
 
-pair<float, float> &BezierCurve::operator[](const int index) {
+pair<double, double> &BezierCurve::operator[](const int index) {
     return this->control_points[index];
 }
 
-const pair<float, float> &BezierCurve::operator[](const int index) const {
+const pair<double, double> &BezierCurve::operator[](const int index) const {
     return this->control_points[index];
 }
 
@@ -97,7 +97,7 @@ int BezierCurve::getPointCount() const {
     return control_points.size();
 }
 
-const vector<pair<float, float> > &BezierCurve::getControlPoints() const {
+const vector<pair<double, double>> &BezierCurve::getControlPoints() const {
     return control_points;
 }
 

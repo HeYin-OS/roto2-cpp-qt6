@@ -23,25 +23,24 @@ public:
     void deleteFromLast();
 
     // point access
-    pair<float, float> getPoint(int curve_index, int point_index) const;
-    pair<float, float>& operator[](const int index);
-    const pair<float, float>& operator[](const int index) const;
+    pair<double, double> getPoint(int curve_index, int point_index) const;
+    pair<double, double>& operator[](const int index);
+    const pair<double, double>& operator[](const int index) const;
 
     // clone
     void cloneControlPoints(const BezierCurve& source);
 
     int getPointCount() const;
-    const vector<pair<float, float>>& getControlPoints() const;
+    const vector<pair<double, double>>& getControlPoints() const;
 
     // resize
-
     void resizeControlPoints(const int num);
 
     // debug
     void printAll() const;
 
 private:
-    vector<pair<float, float>> control_points;
+    vector<pair<double, double>> control_points;
 };
 
 #endif //ROTO_2_CPP_CURVECONTAINER_H

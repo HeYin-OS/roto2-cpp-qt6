@@ -9,12 +9,13 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(WINDEPLOYQT_EXECUTABLE "E:/Qt/6.7.3/msvc2022_64/bin/windeployqt.exe")
+set(WINDEPLOYQT_EXECUTABLE "E:/Qt/6.8.3/msvc2022_64/bin/windeployqt.exe")
 set(OpenCV_ROOT "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv")
 
 find_package(Qt6 COMPONENTS Core Widgets Gui REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
+find_package(Ceres CONFIG REQUIRED)
 
 add_executable(roto_2_cpp
         src/main.cpp
@@ -38,6 +39,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt6::Gui
         ${OpenCV_LIBS}
         Eigen3::Eigen
+        Ceres::ceres
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
@@ -48,6 +50,11 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         --verbose 0
         --no-compiler-runtime
         --no-opengl-sw
-        \"$<TARGET_FILE:roto_2_cpp>\"
+        \"$<TARGET_FILE:${PROJECT_NAME}>\"
+        COMMENT "正在部署 Qt 依赖项..."
+)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND Qt6::windeployqt
+        \"$<TARGET_FILE:${PROJECT_NAME}>\"
         COMMENT "正在部署 Qt 依赖项..."
 )

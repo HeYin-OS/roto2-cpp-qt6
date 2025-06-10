@@ -17,15 +17,15 @@ public:
     void addControlPoint(const QPoint& point, int index, int x_max, int y_max);
 
     // move function
-    void moveTo(const QPoint& point);
+    void moveTo(const QPoint& point, int x_max, int y_max);
 
     // delete function
     void deleteFromLast();
 
     // point access
     pair<double, double> getPoint(int curve_index, int point_index) const;
-    pair<double, double>& operator[](const int index);
-    const pair<double, double>& operator[](const int index) const;
+    pair<double, double>& operator[](int index);
+    const pair<double, double>& operator[](int index) const;
 
     // clone
     void cloneControlPoints(const BezierCurve& source);
@@ -34,7 +34,7 @@ public:
     const vector<pair<double, double>>& getControlPoints() const;
 
     // resize
-    void resizeControlPoints(const int num);
+    void resizeControlPoints(int num);
 
     // debug
     void printAll() const;

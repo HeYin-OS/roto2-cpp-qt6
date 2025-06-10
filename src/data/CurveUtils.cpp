@@ -34,7 +34,7 @@ void BezierCurve::addControlPoint(const QPoint &point, const int index, const in
     control_points[index * 4 - 2] = {control_x, control_y};
 }
 
-void BezierCurve::moveTo(const QPoint &point) {
+void BezierCurve::moveTo(const QPoint &point, const int x_max, const int y_max) {
     double min_distance = 999999.f;
     size_t min_idx = 0;
     // find the closest point (-3 means that skip last 2 empty points and the last control point)
@@ -56,6 +56,13 @@ void BezierCurve::moveTo(const QPoint &point) {
     }
     if (min_idx % 4 == 3) {
         control_points[min_idx + 1] = {point.x(), point.y()};
+    }
+    // handle the last control point movement
+    if (min_idx == control_points.size() - 4 || min_idx == control_points.size() - 5 || min_idx == control_points.size() - 6) {
+        double new_x = 2.f * control_points[control_points.size() - 5].first - control_points[control_points.size() - 6].first;
+        double new_y = 2.f * control_points[control_points.size() - 5].second - control_points[control_points.size() - 6].second;
+        if (new_x < 0.f || new_y < 0.f || new_x >= x_max || new_y >= y_max) return;
+        control_points[control_points.size() - 3] = {new_x, new_y};
     }
 }
 

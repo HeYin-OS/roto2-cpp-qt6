@@ -63,7 +63,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent *event) {
         curves[current_frame].addControlPoint(p, current_insert_idx[current_frame], max_width, max_height);
     } else {
         // 移动控制点
-        curves[current_frame].moveTo(p);
+        curves[current_frame].moveTo(p, max_width, max_height);
     }
     // 重画
     this->reDraw();
@@ -85,7 +85,7 @@ void CanvasWidget::mouseMoveEvent(QMouseEvent *event) {
             curves[current_frame].addControlPoint(p, current_insert_idx[current_frame], max_width, max_height);
         } else {
             // 移动控制点
-            curves[current_frame].moveTo(p);
+            curves[current_frame].moveTo(p, max_width, max_height);
         }
     }
     // 重画

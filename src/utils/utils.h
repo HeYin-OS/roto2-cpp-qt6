@@ -81,7 +81,7 @@ namespace roto_util {
             // 用于存储累计的弧长，超过用户指定值后归零并装入t值
             double accumulated_length = 0.0;
             // 尝试的最小步长
-            const double dt = 0.001;
+            constexpr double dt = 0.001;
             // 在1的范围内进行探测步长是否符合
             for (double t = dt; t <= 1.0; t += dt) {
                 // 尝试的点

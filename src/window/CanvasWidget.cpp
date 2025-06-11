@@ -176,7 +176,8 @@ void CanvasWidget::fitBetween(const int idx1, const int idx2) {
     // 线性插值
     bezier_curve_linear_interpolation(this->curves.begin(), this->curves.end(), idx1, idx2);
     // 获得采样点的位置
-
+    const auto t_for_sample = sample_cubic_bezier_by_pixel_length(this->curves[idx1].getControlPoints(), 1);
+    print_t_for_sample(t_for_sample);
     // 计算能量
 
     // 更新控制点位置

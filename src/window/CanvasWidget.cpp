@@ -173,16 +173,26 @@ void CanvasWidget::copyCurve(const int idx_src, const int idx_dist) {
 void CanvasWidget::fitBetween(const int idx1, const int idx2) {
     using namespace roto_util;
     if (idx2 - idx1 < 2) return;
+    // ----------------
     // 线性插值
+    // ----------------
     bezier_curve_linear_interpolation(this->curves.begin(), this->curves.end(), idx1, idx2);
-    // 获得采样点的位置
+    // ----------------
+    // 采样点t值
+    // ----------------
     const auto t_for_sample = sample_cubic_bezier_by_pixel_length(this->curves[idx1].getControlPoints(), 1);
     print_t_for_sample(t_for_sample);
-    // 计算能量
+    // ----------------
+    // 优化
+    // ----------------
+    // 每帧曲线个数
+    const int n_curve = t_for_sample.size();
+    // 完全展开的double数组，存放全部控制点位置，第一维度是帧号，第二维度是点的idx
+    auto ctrl_points_ceres = control_points_to_pointer(this->curves, n_curve, idx1, idx2);
 
-    // 更新控制点位置
-
+    // ----------------
     // 重画
+    // ----------------
     this->reDraw();
 }
 

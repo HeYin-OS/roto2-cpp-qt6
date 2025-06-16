@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <memory>
 
 #include <QMainWindow>
 #include <QWidget>
@@ -32,6 +33,8 @@
 #include <QGroupBox>
 
 #include <opencv2/opencv.hpp>
+
+#include <ceres/ceres.h>
 
 #include <Eigen/Dense>
 
